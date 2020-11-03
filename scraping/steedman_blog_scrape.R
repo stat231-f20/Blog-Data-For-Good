@@ -16,4 +16,8 @@ v11 <- load_variables(2011, "acs5", cache = TRUE)
 v10 <- load_variables(2010, "acs5", cache = TRUE)
 v09 <- load_variables(2009, "acs5", cache = TRUE)
 
+geo <- "metropolitan statistical area/micropolitan statistical area"
+population = "B01003_001"
+median_income = "B19326_001"
+
 
