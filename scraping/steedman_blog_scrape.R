@@ -32,16 +32,33 @@ d18 <- get_acs(geography = geo, variables = c(population, median_income), year =
   #get state and region info 
   extract(col = NAME, into = "state_abbrev"
           , regex = "([A-Z][A-Z])"
-          , remove = FALSE) %>%
-  left_join(fivethirtyeight::state_info, by = "state_abbrev")%>%
-  left_join(latlong, by = c("name_simp" = "name"))
-  #fix namesfor:
-  #New York, Honolulu, Boise, Winston-Salem
-  #add missing latlong for:
+          , remove = FALSE)
+
+#fix namesfor:
+#New York, Honolulu, Boise, Winston-Salem
+latlong$name[1706] = "New York"
+d18$name_simp[d18$name_simp == "Urban Honolulu"] <- "Honolulu"
+d18$name_simp[d18$name_simp == "Boise City"] <- "Boise"
+d18$name_simp[d18$name_simp == "Winston"] <- "Winston-Salem"
+  
+  #join geographic coordinates and state/region 
+  d18<- d18%>%
+    left_join(latlong, by = c("name_simp" = "name"))%>%
+    left_join(fivethirtyeight::state_info, by = "state_abbrev")
+  
+  #hard code missing coordinates for:
   #San Antonio(29.4241° N, 98.4936° W), San Juan(18.4655° N, 66.1057° W), 
   #Virginia Beach(36.8529° N, 75.9780° W), McAllen (26.2034° N, 98.2300° W)
+  d18$latitude[d18$name_simp=="San Antonio"] = 29.4241
+  d18$longitude[d18$name_simp=="San Antonio"] = -98.4936
+  d18$latitude[d18$name_simp=="San Juan"] = 18.4655
+  d18$longitude[d18$name_simp=="San Juan"] = -66.1057
+  d18$latitude[d18$name_simp=="Virginia Beach"] = 36.8529
+  d18$longitude[d18$name_simp=="Virginia Beach"] = -75.9780
+  d18$latitude[d18$name_simp=="McAllen"] = 26.2034
+  d18$longitude[d18$name_simp=="McAllen"] = -98.2300
 
-  
+
   
 
 latlong <- mdsr::WorldCities%>%
