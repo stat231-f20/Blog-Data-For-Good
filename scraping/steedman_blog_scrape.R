@@ -1,5 +1,6 @@
 library(tidycensus)
 library(tidyverse)
+library(mdsr)
 
 path <- "/Users/steedmanjenkins/Documents/"
 key <- readLines(paste0(path, "api_key_UScensus.txt"))
@@ -20,4 +21,28 @@ geo <- "metropolitan statistical area/micropolitan statistical area"
 population = "B01003_001"
 median_income = "B19326_001"
 
+d18 <- get_acs(geography = geo, variables = c(population, median_income), year = 2018)%>%
+  pivot_wider(id_cols = NAME, names_from = variable, values_from = estimate)%>%
+  rename(population = "B01003_001",
+         median_income = "B19326_001")%>%
+  arrange(desc(population))%>%
+  head(100)%>%
+  separate(col = NAME, into = c("name_simp", "name_extra"), sep = ("-|,|/"), remove = FALSE)%>%
+  select(-(name_extra))%>%
+  #get state and region info 
+  extract(col = NAME, into = "state_abbrev"
+          , regex = "([A-Z][A-Z])"
+          , remove = FALSE) %>%
+  left_join(fivethirtyeight::state_info, by = "state_abbrev")%>%
+  left_join(latlong, by = c("name_simp" = "name"))
+  #fix namesfor:
+  #New York, Honolulu, Boise, Winston-Salem
+  #add missing latlong for:
+  #San Antonio(29.4241° N, 98.4936° W), San Juan(18.4655° N, 66.1057° W), 
+  #Virginia Beach(36.8529° N, 75.9780° W), McAllen (26.2034° N, 98.2300° W)
 
+  
+  
+
+latlong <- mdsr::WorldCities%>%
+  filter(country == "US")
