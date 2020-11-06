@@ -21,20 +21,20 @@ v10 <- load_variables(2010, "acs5", cache = TRUE)
 v09 <- load_variables(2009, "acs5", cache = TRUE)
 
 years <- lst(2009: 2018)
+
 vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05002_013",
           median_value = "B25077_001", married_hh = "B11001_003", total_hh = "B11001_001",
           houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003")
 
-
-
 geo <- "metropolitan statistical area/micropolitan statistical area"
 
+latlong <- mdsr::WorldCities%>%
+  filter(country == "US")%>%
+  select(name, latitude, longitude)
 
-d18 <- get_acs(geography = geo, variables = c(population, median_income), year = 2018)%>%
-  pivot_wider(id_cols = NAME, names_from = variable, values_from = estimate)%>%
-  rename(population = "B01003_001",
-         median_income = "B19326_001")%>%
-  arrange(desc(population))%>%
+d18 <- get_acs(geography = geo, variables = vars, year = 2018)%>%
+  pivot_wider(id_cols = NAME, names_prefix = "y2018_", names_from = variable, values_from = estimate)%>%
+  arrange(desc(y2018_population))%>%
   head(100)%>%
   separate(col = NAME, into = c("name_simp", "name_extra"), sep = ("-|,|/"), remove = FALSE)%>%
   select(-(name_extra))%>%
@@ -53,6 +53,7 @@ d18$name_simp[d18$name_simp == "Winston"] <- "Winston-Salem"
   #join geographic coordinates and state/region 
   d18<- d18%>%
     left_join(latlong, by = c("name_simp" = "name"))%>%
+    distinct(NAME, .keep_all = TRUE)%>%
     left_join(fivethirtyeight::state_info, by = "state_abbrev")
   
   #hard code missing coordinates for:
@@ -68,7 +69,13 @@ d18$name_simp[d18$name_simp == "Winston"] <- "Winston-Salem"
   d18$longitude[d18$name_simp=="McAllen"] = -98.2300
 
 
-  
+cities <- d18
+for (i in 2013:2017){
+  df <- get_acs(geography = geo, variables = vars, year = i)%>%
+    pivot_wider(id_cols = NAME, names_prefix = paste0("y", i, "_"), names_from = variable, values_from = estimate)
+  cities <- cities %>% left_join(df,
+            by = "NAME")
+}
 
-latlong <- mdsr::WorldCities%>%
-  filter(country == "US")
+path_out <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
+write_csv(cities, paste0(path_out, "dataset.csv"))
