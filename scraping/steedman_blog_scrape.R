@@ -1,5 +1,8 @@
-library(tidycensus)
 library(tidyverse)
+library(tidycensus)
+library(sf)
+library(ggsflabel)
+library(scales)
 library(mdsr)
 
 path <- "/Users/steedmanjenkins/Documents/"
@@ -17,9 +20,15 @@ v11 <- load_variables(2011, "acs5", cache = TRUE)
 v10 <- load_variables(2010, "acs5", cache = TRUE)
 v09 <- load_variables(2009, "acs5", cache = TRUE)
 
+years <- lst(2009: 2018)
+vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05002_013",
+          median_value = "B25077_001", married_hh = "B11001_003", total_hh = "B11001_001",
+          houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003")
+
+
+
 geo <- "metropolitan statistical area/micropolitan statistical area"
-population = "B01003_001"
-median_income = "B19326_001"
+
 
 d18 <- get_acs(geography = geo, variables = c(population, median_income), year = 2018)%>%
   pivot_wider(id_cols = NAME, names_from = variable, values_from = estimate)%>%
