@@ -5,7 +5,7 @@ library(ggsflabel)
 library(scales)
 library(mdsr)
 
-path <- "/Users/steedmanjenkins/Documents/"
+path <- "/Users/glecates/TidyCensus/"
 key <- readLines(paste0(path, "api_key_UScensus.txt"))
 census_api_key(key)
 
@@ -24,7 +24,8 @@ years <- lst(2009: 2018)
 
 vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05002_013",
           median_value = "B25077_001", married_hh = "B11001_003", total_hh = "B11001_001",
-          houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003")
+          houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003", 
+          median_age_female = "B01002_003", median_age_male = "B01002_002")
 
 geo <- "metropolitan statistical area/micropolitan statistical area"
 
@@ -77,5 +78,5 @@ for (i in 2013:2017){
             by = "NAME")
 }
 
-path_out <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
+path_out <- "/Users/glecates/git/Blog-Data-For-Good/"
 write_csv(cities, paste0(path_out, "dataset.csv"))
