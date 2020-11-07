@@ -35,7 +35,7 @@ latlong <- mdsr::WorldCities %>%
 
 
 
-d18 <- get_acs(geography = geo, variables = vars, year = 2012) %>%
+d18 <- get_acs(geography = geo, variables = vars, year = 2018) %>%
   pivot_wider(id_cols = NAME, names_prefix = "y2018_", names_from = variable, values_from = estimate)%>%
   arrange(desc(y2018_population))%>%
   head(100)%>%
