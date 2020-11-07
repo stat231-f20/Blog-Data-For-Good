@@ -29,11 +29,13 @@ vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05
 
 geo <- "metropolitan statistical area/micropolitan statistical area"
 
-latlong <- mdsr::WorldCities%>%
-  filter(country == "US")%>%
+latlong <- mdsr::WorldCities %>%
+  filter(country == "US") %>%
   select(name, latitude, longitude)
 
-d18 <- get_acs(geography = geo, variables = vars, year = 2018)%>%
+
+
+d18 <- get_acs(geography = geo, variables = vars, year = 2012) %>%
   pivot_wider(id_cols = NAME, names_prefix = "y2018_", names_from = variable, values_from = estimate)%>%
   arrange(desc(y2018_population))%>%
   head(100)%>%
@@ -44,7 +46,7 @@ d18 <- get_acs(geography = geo, variables = vars, year = 2018)%>%
           , regex = "([A-Z][A-Z])"
           , remove = FALSE)
 
-#fix namesfor:
+#fix names for:
 #New York, Honolulu, Boise, Winston-Salem
 latlong$name[1706] = "New York"
 d18$name_simp[d18$name_simp == "Urban Honolulu"] <- "Honolulu"
@@ -52,7 +54,7 @@ d18$name_simp[d18$name_simp == "Boise City"] <- "Boise"
 d18$name_simp[d18$name_simp == "Winston"] <- "Winston-Salem"
   
   #join geographic coordinates and state/region 
-  d18<- d18%>%
+  d18<- d18 %>%
     left_join(latlong, by = c("name_simp" = "name"))%>%
     distinct(NAME, .keep_all = TRUE)%>%
     left_join(fivethirtyeight::state_info, by = "state_abbrev")
