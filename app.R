@@ -3,6 +3,13 @@ library(datasets)
 library(viridis)
 library(maps)
 library(leaflet)
+library(shinythemes)
+library(tidyverse)
+library(rvest)
+library(robotstxt)
+library(tidycensus)
+library(tidytext)
+library(shiny)
 
 path_in <- "/Users/glecates/Git/Blog-Data-For-Good"
 city_data <- read_csv(paste0(path_in, "/dataset.csv"))
@@ -22,4 +29,5 @@ leaflet(data = city_data) %>%
                    , stroke = FALSE
                    , radius = 5
                    , fillOpacity = 0.9)
+
 
