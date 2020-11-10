@@ -11,7 +11,7 @@ library(tidycensus)
 library(tidytext)
 library(shiny)
 
-path_in <- "/Users/glecates/Git/Blog-Data-For-Good"
+path_in <- "/Users/rodrigo/Git/Blog-Data-For-Good"
 city_data <- read_csv(paste0(path_in, "/dataset.csv"))
 
 mypal <- colorNumeric(
@@ -25,7 +25,7 @@ leaflet(data = city_data) %>%
                    , lng=city_data$longitude
                    , fillColor = ~mypal(y2013_population)
                    , color = "#b2aeae"
-                   , popup= paste0(city_data$name_simp,": ",city_data$y2013_population)
+                   , popup= paste0(city_data$name_simp,", ", city_data$state_abbrev,": ",city_data$y2013_population)
                    , stroke = FALSE
                    , radius = 5
                    , fillOpacity = 0.9)
