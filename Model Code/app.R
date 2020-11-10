@@ -5,6 +5,7 @@ path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
+         pct_pop_change = pop_change/y2013_population,
          #get averages across all years for predictor variable values
          population = (y2013_population + y2014_population + y2015_population + 
                          y2016_population + y2017_population + y2018_population)/6,
@@ -30,7 +31,7 @@ cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
                            y2016_median_value + y2017_median_value + y2018_median_value)/6
          )%>%
   #don't need individual year data anymore
-  select(NAME, name_simp, state_abbrev, state, region, latitude, longitude, pop_change, population, median_age_male, 
+  select(NAME, name_simp, state_abbrev, state, region, latitude, longitude, pct_pop_change, pop_change, population, median_age_male, 
          median_age_female,white_alone, black_alone, foreign_born, total_hh, married_hh, 
          median_income, houses_for_sale, median_value)%>%
   #get standardized/per capita variables
@@ -41,7 +42,7 @@ cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
          per_capita_for_sale = houses_for_sale/population)
 cities$region = ifelse(cities$state_abbrev == "PR", "South", cities$region)
 
-scat_x_choices <- as.list(names(cities)[c(10,11,17,19:24)])
+scat_x_choices <- as.list(names(cities)[c(11,12,18,20:25)])
 scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income", 
                   "Median Home Value", "Percent White", 
                   "Percent Black", "Percent Foreign Born", "Percent Married Couple Households", 
@@ -56,13 +57,13 @@ names(city_choices) <- c("None", cities$name_simp)
 
 ui <- fluidPage(
   
-  h1("Metro Areas"),
+  h1("Metro Areas, part II"),
   h5("Grace, Mike, Rodrigo and Steedman"),
   
-  navlistPanel(
+  navlistPanel(widths = c(3,9),
     
     #grace (scatterplot ui code)
-    tabPanel(title = "See which variables are significant predictors of population change",
+    tabPanel(title = "Which variables are significant predictors of population change?",
              
              selectInput(inputId = "x"
                          , label = "Choose a predictor variable of interest:"
@@ -76,7 +77,9 @@ ui <- fluidPage(
                                 , selected = region_choices
                                 , inline = TRUE),
              
-             plotOutput(outputId = "scatter"))
+             plotOutput(outputId = "scatter"),
+             verbatimTextOutput(outputId = "model"))
+    
   )
 )
 
@@ -84,17 +87,26 @@ server <- function(input,output){
   
   use_data <- reactive({
     data <- cities %>%
-      filter(region==input$region)
+      filter(region%in%input$region)
+  })
+  
+  city_filter <- reactive({
+    data <- filter(cities, name_simp == input$city)
+      
   })
   
   output$scatter <- renderPlot({
-    ggplot(data = use_data(), aes_string(x = input$x, y = "pop_change")) +
+    ggplot(data = use_data(), aes_string(x = input$x, y = "pct_pop_change")) +
       geom_point(aes(color = region, size = population)) +
       geom_smooth(method = 'lm', se = FALSE) +
       labs(x = names(scat_x_choices)[scat_x_choices == input$x]
-           ,y = "Population Change 2013-2018") +
-      geom_label(data = filter(cities, name_simp == input$city), aes(label = name_simp)) + 
-      theme_minimal()
+           ,y = "Percent Population Change 2013-2018") +
+      geom_label(data = city_filter(), aes(label = name_simp)) + 
+      theme_bw()
+  })
+  
+  output$model <- renderPrint({
+    summary(lm("pct_pop_change" ~ input$x, data = cities))
   })
 }
 
