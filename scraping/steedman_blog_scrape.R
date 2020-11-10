@@ -5,7 +5,7 @@ library(ggsflabel)
 library(scales)
 library(mdsr)
 
-path <- "/Users/glecates/TidyCensus/"
+path <- "/Users/steedmanjenkins/Documents/"
 key <- readLines(paste0(path, "api_key_UScensus.txt"))
 census_api_key(key)
 
@@ -27,7 +27,7 @@ vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05
           houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003", 
           median_age_female = "B01002_003", median_age_male = "B01002_002", 
           hours_worked_past_year = "B23018_002", speaks_only_english = "B99162_002", 
-          num_vehicles_avail = "B992512_001")
+          num_vehicles_avail = "B08015_001")
 
 geo <- "metropolitan statistical area/micropolitan statistical area"
 
@@ -61,13 +61,14 @@ d18$name_simp[d18$name_simp == "Winston"] <- "Winston-Salem"
 d18 <- d18%>%
   mutate(name_classic = paste0(name_simp, sep = ", ", state_abbrev))
 
-latlong <- latlong%>%
-  mutate(name_classic = paste0(name, sep = ", ", countryRegion))
+#joining by name simp works better
+#latlong <- latlong%>%
+#  mutate(name_classic = paste0(name, sep = ", ", countryRegion))
 
   
   #join geographic coordinates and state/region 
   d18<- d18 %>%
-    left_join(latlong, by = "name_classic")%>%
+    left_join(latlong, by = c("name_simp" = "name"))%>%
     distinct(NAME, .keep_all = TRUE)%>%
     left_join(fivethirtyeight::state_info, by = "state_abbrev")
   
@@ -92,5 +93,5 @@ for (i in 2013:2017){
             by = "NAME")
 }
 
-path_out <- "/Users/rodrigo/git/Blog-Data-For-Good/"
+path_out <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 write_csv(cities, paste0(path_out, "dataset.csv"))

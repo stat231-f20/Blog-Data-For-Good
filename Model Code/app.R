@@ -2,7 +2,7 @@ library(tidyverse)
 library(shiny)
 
 #path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
-path_in <- "C:/Users/kcorreia/Dropbox (Amherst College)/Teaching/Fall 2020/Stat231/git/Blog-Data-For-Good/"
+path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
