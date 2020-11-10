@@ -27,7 +27,8 @@ vars <- c(population = "B01003_001", median_income = "B19326_001", f_born = "B05
           houses_for_sale = "B25004_004", white_alone = "B02001_002", black_alone = "B02001_003", 
           median_age_female = "B01002_003", median_age_male = "B01002_002", 
           hours_worked_past_year = "B23018_002", speaks_only_english = "B99162_002", 
-          num_vehicles_avail = "B08015_001")
+          num_vehicles_avail = "B08015_001", poverty = "B17001_002", female_bachelors = "B15002_032",
+          male_bachelors = "B15002_015")
 
 geo <- "metropolitan statistical area/micropolitan statistical area"
 
