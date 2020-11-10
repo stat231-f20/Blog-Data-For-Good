@@ -11,6 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align="center")
 library(tidyverse)
+library(rmdformats)
 ```
 
 # This is an intriguing sentence. You want to read more after reading this.
