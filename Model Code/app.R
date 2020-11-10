@@ -3,7 +3,7 @@ library(shiny)
 
 path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 
-cities <- read_csv("dataset.csv")%>%
+cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
          #get averages across all years for predictor variable values
          population = (y2013_population + y2014_population + y2015_population + 
@@ -39,6 +39,7 @@ cities <- read_csv("dataset.csv")%>%
          pct_foreign_born = foreign_born/population,
          pct_married_hh = married_hh/total_hh,
          per_capita_for_sale = houses_for_sale/population)
+cities$region = ifelse(cities$state_abbrev == "PR", "South", cities$region)
 
 scat_x_choices <- as.list(names(cities)[c(10,11,17,19:24)])
 scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income", 
@@ -46,4 +47,58 @@ scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income",
                   "Percent Black", "Percent Foreign Born", "Percent Married Couple Households", 
                   "Houses for Sale (Per Capita)")
 names(scat_x_choices) <- scat_x_names
+
+region_choices <- (cities %>%
+                          count(region))$region
+
+city_choices <- as.list(c("None", cities$name_simp))
+names(city_choices) <- c("None", cities$name_simp)
+
+ui <- fluidPage(
+  
+  h1("Metro Areas"),
+  h5("Grace, Mike, Rodrigo and Steedman"),
+  
+  navlistPanel(
+    
+    #grace (scatterplot ui code)
+    tabPanel(title = "See which variables are significant predictors of population change",
+             
+             selectInput(inputId = "x"
+                         , label = "Choose a predictor variable of interest:"
+                         , choices = scat_x_choices),
+             selectInput(inputId = "city"
+                         , label = "Identitfy a city in the scatterplot:"
+                         , choices = city_choices),
+             checkboxGroupInput(inputId = "region"
+                                , label = "Choose a region of the U.S:"
+                                , choices = region_choices
+                                , selected = region_choices
+                                , inline = TRUE),
+             
+             plotOutput(outputId = "scatter"))
+  )
+)
+
+server <- function(input,output){
+  
+  use_data <- reactive({
+    data <- cities %>%
+      filter(region==input$region)
+  })
+  
+  output$scatter <- renderPlot({
+    ggplot(data = use_data(), aes_string(x = input$x, y = "pop_change")) +
+      geom_point(aes(color = region, size = population)) +
+      geom_smooth(method = 'lm', se = FALSE) +
+      labs(x = names(scat_x_choices)[scat_x_choices == input$x]
+           ,y = "Population Change 2013-2018") +
+      geom_label(data = filter(cities, name_simp == input$city), aes(label = name_simp)) + 
+      theme_minimal()
+  })
+}
+
+shinyApp(ui = ui, server = server)  
+
+
          
