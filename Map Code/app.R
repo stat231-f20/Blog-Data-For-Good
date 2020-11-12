@@ -10,15 +10,9 @@ library(tidycensus)
 library(tidytext)
 library(shiny)
 
-<<<<<<< HEAD
 path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 city_data <- read_csv(paste0(path_in, "dataset.csv"))
-=======
-path_in <- "/Users/glecates/Git/Blog-Data-For-Good/"
 
-grace_data <- read_csv(paste0(path_in, "dataset.csv"))
-
->>>>>>> 4440b22065225655ec7fd11c66ee62b0344f003d
 
 #put data in long form
 common_vars <- colnames(city_data[c(1:3, 21:27)])
