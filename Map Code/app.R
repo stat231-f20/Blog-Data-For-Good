@@ -10,6 +10,8 @@ library(tidycensus)
 library(tidytext)
 library(shiny)
 
+city_data <- read_csv("dataset.csv")
+
 #put data in long form
 common_vars <- colnames(city_data[c(1:3, 21:27)])
 short_vars <- c("median_age_male", "median_age_female", "population", "white_alone", "black_alone",
@@ -64,7 +66,7 @@ ui <- fluidPage(
              
              selectInput(inputId = "var"
                          , label = "Choose a variable of interest:"
-                         , choices = map_var_choices),
+                         , choices = variable_choices),
              selectInput(inputId = "year"
                          , label = "Choose a year of interest:"
                          , choices = map_year_choices),
@@ -80,7 +82,7 @@ server <- function(input,output){
   use_data_map <- reactive({
     data <- cities_long %>%
       filter(year == input$year) %>%
-      rename('interest_var' = input$var)
+      rename("interest_var" = input$var)
   })
   
   #leaflet map
@@ -91,7 +93,7 @@ server <- function(input,output){
       addCircleMarkers(lat= ~latitude
                        , lng= ~longitude
                        , popup= paste0(use_data_map()$name_simp,", ", use_data_map()$state_abbrev, "<br>",
-                                       input$var, ": ", use_data_map()$interest_var)
+                                       map_var_choices[variable_choices == input$var], ": ", use_data_map()$interest_var)
                        , stroke = FALSE 
                        , radius = 5
                        , fillOpacity = 0.9)
