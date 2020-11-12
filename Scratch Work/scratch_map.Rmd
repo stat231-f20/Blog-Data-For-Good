@@ -26,6 +26,13 @@ library(shiny)
 path_in <- "/Users/rodrigo/Git/Blog-Data-For-Good"
 city_data <- read_csv(paste0(path_in, "/dataset.csv"))
 
+#mean, standard deviation
+mean <- mean(city_data$y2013_population[])
+std_dev <- sd(city_data$y2013_population)
+
+mean
+#standar
+
 mypal <- colorNumeric(
   palette = "Spectral",
   domain = city_data$y2013_population)
@@ -39,7 +46,10 @@ leaflet(data = city_data) %>%
                    , color = "#b2aeae"
                    , popup= paste0(city_data$name_simp,", ", city_data$state_abbrev,": ",city_data$y2013_population)
                    , stroke = FALSE
-                   , radius = 5
+  
+                   , radius = (city_data$y2013_population 
+                               - mean(city_data$y2013_population))
+                               / sd(city_data$y2013_population) * 3
                    , fillOpacity = 0.9)
 ```
 
