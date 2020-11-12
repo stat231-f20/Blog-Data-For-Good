@@ -45,26 +45,9 @@ dfs <- lst(data13, data14, data15, data16, data17, data18)
 cities_long <- bind_rows(dfs) %>%
   select(-c(population))
 
-mypal <- colorNumeric(
-  palette = "Spectral",
-  domain = city_data$y2013_population)
-
-leaflet(data = city_data) %>% 
-  addTiles() %>%
-  setView(-72.5, 42.4, zoom = 3) %>%
-  addCircleMarkers(lat=city_data$latitude
-                   , lng=city_data$longitude
-                   , fillColor = ~mypal(y2013_population)
-                   , color = "#b2aeae"
-                   , popup= paste0(city_data$name_simp,", ", city_data$state_abbrev,": ",city_data$y2013_population)
-                   , stroke = FALSE
-                   , radius = 5
-                   , fillOpacity = 0.9)
-
-
 #Variable choices for the map - 
 #need to go back and divide by population for proportions and per capita values - also clean up variable names
-variable_choices <- as.list(cities_long)[11:27]
+variable_choices <- as.list(cities_long)[11:26]
 map_var_choices <- c("Median Age (Male)", "Median Age (Female)", "White Population", "Black Population", 
                   "Foreign Born Population", "Vehicles Available", 
                   "Total Households", "Total Married Households", "Number of Male Bachelors",
@@ -96,7 +79,7 @@ server <- function(input,output){
   #grace scatter plot data
   use_data_map <- reactive({
     data <- cities_long %>%
-      filter(year == input$year)
+      filter(year%in%input$year)
   })
   
   color_pal <- reactive({
@@ -113,8 +96,9 @@ server <- function(input,output){
       setView(-72.5, 42.4, zoom = 3) %>%
       addCircleMarkers(lat= data$latitude
                        , lng= data$longitude
-                       , color = ~color_pal()
-                       , popup= paste0(data$name_simp,", ", data$state_abbrev,": ", input$vars)
+                       , fillColor = ~mypal(data$input$vars)
+                       , popup= paste0(data$name_simp,", ", data$state_abbrev,": ", "<br>",
+                                       input$vars)
                        , stroke = FALSE
                        , radius = 5
                        , fillOpacity = 0.9)
