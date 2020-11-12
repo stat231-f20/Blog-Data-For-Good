@@ -89,8 +89,8 @@ server <- function(input,output){
       setView(-72.5, 42.4, zoom = 3) %>%
       addCircleMarkers(lat= ~latitude
                        , lng= ~longitude
-                       , popup= paste0(data$name_simp,", ", data$state_abbrev, "<br>",
-                                       input$var, ": ", data$input$var)
+                       , popup= paste0(use_data_map()$name_simp,", ", use_data_map()$state_abbrev, "<br>",
+                                       input$var, ": ", use_data_map()$input$var)
                        , stroke = FALSE 
                        , radius = 5
                        , fillOpacity = 0.9)
