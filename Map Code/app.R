@@ -79,7 +79,8 @@ server <- function(input,output){
   #map data set
   use_data_map <- reactive({
     data <- cities_long %>%
-      filter(year == input$year)
+      filter(year == input$year) %>%
+      rename('interest_var' = input$var)
   })
   
   #leaflet map
@@ -90,7 +91,7 @@ server <- function(input,output){
       addCircleMarkers(lat= ~latitude
                        , lng= ~longitude
                        , popup= paste0(use_data_map()$name_simp,", ", use_data_map()$state_abbrev, "<br>",
-                                       input$var, ": ", use_data_map()$input$var)
+                                       input$var, ": ", use_data_map()$interest_var)
                        , stroke = FALSE 
                        , radius = 5
                        , fillOpacity = 0.9)
