@@ -10,9 +10,6 @@ library(tidycensus)
 library(tidytext)
 library(shiny)
 
-path_in <- "/Users/glecates/git/Blog-Data-For-Good"
-city_data <- read_csv(paste0(path_in, "/dataset.csv"))
-
 #put data in long form
 common_vars <- colnames(city_data[c(1:3, 21:27)])
 short_vars <- c("median_age_male", "median_age_female", "population", "white_alone", "black_alone",
@@ -75,16 +72,11 @@ map_var_choices <- c("Median Age (Male)", "Median Age (Female)", "White Populati
                   "Houses for Sale", "Median Home Value", "Number of People Who Speak Only English")
 names(variable_choices) <- map_var_choices
 
-map_year_choices <- c("2013", "2014", "2015", "2016", "2017", "2018")
-
+map_year_choices <- as.numeric(c("2013", "2014", "2015", "2016", "2017", "2018"))
 
 #ui
 ui <- fluidPage(
   
-  h1("Data Visualizations for the top 100 most populated US Metro Areas in 2018"),
-  h5("Grace, Mike, Rodrigo and Steedman"),
-  
-    #grace (scatterplot ui code)
     tabPanel(title = "Map of US Cities",
              
              selectInput(inputId = "vars"
@@ -94,35 +86,35 @@ ui <- fluidPage(
                          , label = "Choose a year of interest"
                          , choices = map_year_choices),
             
-             plotOutput(outputId = "map"))
-
+             leafletOutput("map")
+             
+    )
 )
 
 server <- function(input,output){
   
   #grace scatter plot data
   use_data_map <- reactive({
-    data <- city_long%>%
-      filter(year%in%input$year)
+    data <- cities_long %>%
+      filter(year == input$year)
   })
   
-  use_data_color <- reactive({
+  color_pal <- reactive({
     mypal <- colorNumeric(
       palette = "Spectral",
-      domain = city_long$var)
+      domain = cities_long$vars)
   })
   
   #leaflet map  
   
-  output$map <- renderPlot({
+  output$map <- renderLeaflet({
     leaflet(data = use_data_map()) %>% 
       addTiles() %>%
       setView(-72.5, 42.4, zoom = 3) %>%
-      addCircleMarkers(lat=city_data$latitude
-                       , lng=city_data$longitude
-                       , fillColor = ~mypal(y2013_population)
-                       , color = "#b2aeae"
-                       , popup= paste0(city_long$name_simp,", ", city_long$state_abbrev,": ",city_long$var)
+      addCircleMarkers(lat= data$latitude
+                       , lng= data$longitude
+                       , color = ~color_pal()
+                       , popup= paste0(data$name_simp,", ", data$state_abbrev,": ", input$vars)
                        , stroke = FALSE
                        , radius = 5
                        , fillOpacity = 0.9)
