@@ -62,11 +62,11 @@ ui <- fluidPage(
   
     tabPanel(title = "Map of US Cities",
              
-             selectInput(inputId = "vars"
+             selectInput(inputId = "var"
                          , label = "Choose a variable of interest:"
                          , choices = map_var_choices),
              selectInput(inputId = "year"
-                         , label = "Choose a year of interest"
+                         , label = "Choose a year of interest:"
                          , choices = map_year_choices),
             
              leafletOutput("map")
@@ -79,19 +79,18 @@ server <- function(input,output){
   #map data set
   use_data_map <- reactive({
     data <- cities_long %>%
-      filter(year%in%input$year)
+      filter(year == input$year)
   })
   
   #leaflet map
   output$map <- renderLeaflet({
-    leaflet(data = use_data_map()) %>% 
+    leaflet(use_data_map()) %>% 
       addTiles() %>%
       setView(-72.5, 42.4, zoom = 3) %>%
-      addCircleMarkers(lat= data$latitude
-                       , lng= data$longitude
-                       , color = ~mypal(data$input$vars)
-                       , popup= paste0(data$name_simp,", ", data$state_abbrev,": ", "<br>",
-                                       input$vars)
+      addCircleMarkers(lat= ~latitude
+                       , lng= ~longitude
+                       , popup= paste0(data$name_simp,", ", data$state_abbrev, "<br>",
+                                       input$var, ": ", data$input$var)
                        , stroke = FALSE 
                        , radius = 5
                        , fillOpacity = 0.9)
