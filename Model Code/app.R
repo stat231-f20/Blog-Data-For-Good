@@ -1,6 +1,7 @@
 library(tidyverse)
 library(shiny)
 
+#path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
@@ -28,25 +29,41 @@ cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
          houses_for_sale = (y2013_houses_for_sale + y2014_houses_for_sale + y2015_houses_for_sale + 
                               y2016_houses_for_sale + y2017_houses_for_sale + y2018_houses_for_sale)/6,
          median_value = (y2013_median_value + y2014_median_value + y2015_median_value + 
-                           y2016_median_value + y2017_median_value + y2018_median_value)/6
+                           y2016_median_value + y2017_median_value + y2018_median_value)/6,
+         only_english = (y2013_speaks_only_english + y2014_speaks_only_english + y2015_speaks_only_english + 
+                                  y2016_speaks_only_english + y2017_speaks_only_english + y2018_speaks_only_english)/6,
+         num_vehicles = (y2013_num_vehicles_avail + y2014_num_vehicles_avail + y2015_num_vehicles_avail + 
+                           y2016_num_vehicles_avail + y2017_num_vehicles_avail + y2018_num_vehicles_avail)/6,
+         poverty = (y2013_poverty + y2014_poverty + y2015_poverty + 
+                      y2016_poverty + y2017_poverty + y2018_poverty)/6,
+         female_bachelors = (y2013_female_bachelors + y2014_female_bachelors + y2015_female_bachelors + 
+                               y2016_female_bachelors + y2017_female_bachelors + y2018_female_bachelors)/6,
+         male_bachelors = (y2013_male_bachelors + y2014_male_bachelors + y2015_male_bachelors + 
+                             y2016_male_bachelors + y2017_male_bachelors + y2018_male_bachelors)/6,
+         bachelors = female_bachelors + male_bachelors
          )%>%
   #don't need individual year data anymore
   select(NAME, name_simp, state_abbrev, state, region, latitude, longitude, pct_pop_change, pop_change, population, median_age_male, 
          median_age_female,white_alone, black_alone, foreign_born, total_hh, married_hh, 
-         median_income, houses_for_sale, median_value)%>%
+         median_income, houses_for_sale, median_value, only_english, num_vehicles, poverty, bachelors)%>%
   #get standardized/per capita variables
   mutate(pct_white = white_alone/population,
          pct_black = black_alone/population,
          pct_foreign_born = foreign_born/population,
          pct_married_hh = married_hh/total_hh,
-         per_capita_for_sale = houses_for_sale/population)
+         per_capita_for_sale = houses_for_sale/population,
+         pct_only_english = only_english/population,
+         vehicles_per_hh = num_vehicles/total_hh,
+         pct_poverty = poverty/population,
+         pct_bachelors = bachelors/population)
 cities$region = ifelse(cities$state_abbrev == "PR", "South", cities$region)
 
-scat_x_choices <- as.list(names(cities)[c(11,12,18,20:25)])
+scat_x_choices <- as.list(names(cities)[c(11,12,18,20, 25:33)])
 scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income", 
                   "Median Home Value", "Percent White", 
                   "Percent Black", "Percent Foreign Born", "Percent Married Couple Households", 
-                  "Houses for Sale (Per Capita)")
+                  "Houses for Sale (Per Capita)", "Percent Only English-speaking", "Vehicles per Household",
+                  "Percent Below Poverty Line", "Percent with College Degree")
 names(scat_x_choices) <- scat_x_names
 
 region_choices <- (cities %>%
@@ -77,9 +94,10 @@ ui <- fluidPage(
                                 , selected = region_choices
                                 , inline = TRUE),
              
+             textOutput(outputId = "significance"),
              plotOutput(outputId = "scatter"),
-             verbatimTextOutput(outputId = "model"))
-    
+             verbatimTextOutput(outputId = "model")
+    )
   )
 )
 
@@ -105,8 +123,20 @@ server <- function(input,output){
       theme_bw()
   })
   
+  modsum <- reactive({
+    mod <- summary(lm(as.formula(paste("pct_pop_change ~ ", input$x)), data = cities))
+  })
+  
   output$model <- renderPrint({
-    summary(lm("pct_pop_change" ~ input$x, data = cities))
+    print(modsum())
+  })
+  
+  output$significance <- renderText({
+    pval <- modsum()$coeff[input$x,"Pr(>|t|)"]
+    if(pval < 0.05) {paste0("According to our model, ", names(scat_x_choices)[scat_x_choices == input$x], 
+           " IS a significant predictor of Percent Population Change")}
+    else{paste0("According to our model, ", names(scat_x_choices)[scat_x_choices == input$x], " is NOT 
+                  a significant predictor of Percent Population Change")}
   })
 }
 
