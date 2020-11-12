@@ -1,8 +1,9 @@
 library(tidyverse)
 library(shiny)
+library(shinyWidgets)
 
 #path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
-path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
+path_in <- "/Users/CookieCream45/Desktop/STAT-231/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
@@ -73,6 +74,8 @@ city_choices <- as.list(c("None", cities$name_simp))
 names(city_choices) <- c("None", cities$name_simp)
 
 ui <- fluidPage(
+  setBackgroundImage(
+    src = "https://s7.bluegreenvacations.com/is/image/BGV/collection-cityscape-sm?$bg2-hero-sm$"),
   
   h1("Metro Areas, part II"),
   h5("Grace, Mike, Rodrigo and Steedman"),
