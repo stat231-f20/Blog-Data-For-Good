@@ -47,7 +47,7 @@ cities_long <- bind_rows(dfs) %>%
 
 #Variable choices for the map - 
 #need to go back and divide by population for proportions and per capita values - also clean up variable names
-variable_choices <- as.list(cities_long)[11:26]
+variable_choices <- as.list(names(cities_long)[11:26])
 map_var_choices <- c("Median Age (Male)", "Median Age (Female)", "White Population", "Black Population", 
                   "Foreign Born Population", "Vehicles Available", 
                   "Total Households", "Total Married Households", "Number of Male Bachelors",
@@ -63,7 +63,7 @@ ui <- fluidPage(
     tabPanel(title = "Map of US Cities",
              
              selectInput(inputId = "vars"
-                         , label = "Choose a variable"
+                         , label = "Choose a variable of interest:"
                          , choices = map_var_choices),
              selectInput(inputId = "year"
                          , label = "Choose a year of interest"
@@ -76,30 +76,23 @@ ui <- fluidPage(
 
 server <- function(input,output){
   
-  #grace scatter plot data
+  #map data set
   use_data_map <- reactive({
     data <- cities_long %>%
       filter(year%in%input$year)
   })
   
-  color_pal <- reactive({
-    mypal <- colorNumeric(
-      palette = "Spectral",
-      domain = cities_long$vars)
-  })
-  
-  #leaflet map  
-  
+  #leaflet map
   output$map <- renderLeaflet({
     leaflet(data = use_data_map()) %>% 
       addTiles() %>%
       setView(-72.5, 42.4, zoom = 3) %>%
       addCircleMarkers(lat= data$latitude
                        , lng= data$longitude
-                       , fillColor = ~mypal(data$input$vars)
+                       , color = ~mypal(data$input$vars)
                        , popup= paste0(data$name_simp,", ", data$state_abbrev,": ", "<br>",
                                        input$vars)
-                       , stroke = FALSE
+                       , stroke = FALSE 
                        , radius = 5
                        , fillOpacity = 0.9)
   })
