@@ -84,6 +84,11 @@ d18 <- d18%>%
   d18$longitude[d18$name_simp=="Virginia Beach"] = -75.9780
   d18$latitude[d18$name_simp=="McAllen"] = 26.2034
   d18$longitude[d18$name_simp=="McAllen"] = -98.2300
+  
+  d18$latitude[d18$name_simp == "Albany"] = 42.6526
+  d18$longitude[d18$name_simp == "Albany"] = -73.7562
+  d18$latitude[d18$name_simp == "Columbus"] = 39.9612
+  d18$longitude[d18$name_simp == "Columbus"] = -82.9988
 
 
 cities <- d18
