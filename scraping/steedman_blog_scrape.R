@@ -76,20 +76,28 @@ d18 <- d18%>%
   #hard code missing coordinates for:
   #San Antonio(29.4241° N, 98.4936° W), San Juan(18.4655° N, 66.1057° W), 
   #Virginia Beach(36.8529° N, 75.9780° W), McAllen (26.2034° N, 98.2300° W)
-  d18$latitude[d18$name_simp=="San Antonio"] = 29.4241
-  d18$longitude[d18$name_simp=="San Antonio"] = -98.4936
-  d18$latitude[d18$name_simp=="San Juan"] = 18.4655
-  d18$longitude[d18$name_simp=="San Juan"] = -66.1057
-  d18$latitude[d18$name_simp=="Virginia Beach"] = 36.8529
-  d18$longitude[d18$name_simp=="Virginia Beach"] = -75.9780
-  d18$latitude[d18$name_simp=="McAllen"] = 26.2034
-  d18$longitude[d18$name_simp=="McAllen"] = -98.2300
+  d18$latitude[d18$name_simp=="San Antonio"] = 29.4241; d18$longitude[d18$name_simp=="San Antonio"] = -98.4936
+  d18$latitude[d18$name_simp=="San Juan"] = 18.4655; d18$longitude[d18$name_simp=="San Juan"] = -66.1057
+  d18$latitude[d18$name_simp=="Virginia Beach"] = 36.8529; d18$longitude[d18$name_simp=="Virginia Beach"] = -75.9780
+  d18$latitude[d18$name_simp=="McAllen"] = 26.2034; d18$longitude[d18$name_simp=="McAllen"] = -98.2300
   
-  d18$latitude[d18$name_simp == "Albany"] = 42.6526
-  d18$longitude[d18$name_simp == "Albany"] = -73.7562
-  d18$latitude[d18$name_simp == "Columbus"] = 39.9612
-  d18$longitude[d18$name_simp == "Columbus"] = -82.9988
-
+  #hard code to fix incorrect joins
+  d18$latitude[d18$name_simp == "Albany"] = 42.6526; d18$longitude[d18$name_simp == "Albany"] = -73.7562
+  d18$latitude[d18$name_simp == "Columbus"] = 39.9612; d18$longitude[d18$name_simp == "Columbus"] = -82.9988
+  d18$latitude[d18$name_simp == "Washington"] = 38.9072; d18$longitude[d18$name_simp == "Washington"] = -77.0369
+  d18$latitude[d18$name_simp == "Riverside"] = 33.9806; d18$longitude[d18$name_simp == "Riverside"] = -117.3755
+  d18$latitude[d18$name_simp == "Portland"] = 45.5051; d18$longitude[d18$name_simp == "Portland"] = -122.6750
+  d18$latitude[d18$name_simp == "Cleveland"] = 41.4993; d18$longitude[d18$name_simp == "Cleveland"] = -81.6944
+  d18$latitude[d18$name_simp == "Jacksonville"] = 30.3322; d18$longitude[d18$name_simp == "Jacksonville"] = -81.6557
+  d18$latitude[d18$name_simp == "Richmond"] = 37.5407; d18$longitude[d18$name_simp == "Richmond"] = -77.4360
+  d18$latitude[d18$name_simp == "Rochester"] = 43.1566; d18$longitude[d18$name_simp == "Rochester"] = -77.6088
+  d18$latitude[d18$name_simp == "Buffalo"] = 42.8864; d18$longitude[d18$name_simp == "Buffalo"] = -78.8784
+  d18$latitude[d18$name_simp == "Fresno"] = 36.7378; d18$longitude[d18$name_simp == "Fresno"] = -119.7871
+  d18$latitude[d18$name_simp == "Greenville"] = 34.8526; d18$longitude[d18$name_simp == "Greenville"] = -82.3940
+  d18$latitude[d18$name_simp == "Columbia"] = 34.0007; d18$longitude[d18$name_simp == "Columbia"] = -81.0348
+  d18$latitude[d18$name_simp == "Charleston"] = 32.7765; d18$longitude[d18$name_simp == "Charleston"] = -79.9311
+  d18$latitude[d18$name_simp == "Madison"] = 43.0731; d18$longitude[d18$name_simp == "Madison"] = -89.4012
+  d18$latitude[d18$name_simp == "Springfield"] = 42.1015; d18$longitude[d18$name_simp == "Springfield"] = -72.5898
 
 cities <- d18
 for (i in 2013:2017){
