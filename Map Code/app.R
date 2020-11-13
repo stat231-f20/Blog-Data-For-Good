@@ -73,7 +73,7 @@ ui <- fluidPage(
                          , label = "Choose a year of interest:"
                          , choices = map_year_choices),
             
-             leafletOutput("map")
+             leafletOutput("map", height = 700)
              
     )
 )
@@ -97,15 +97,21 @@ server <- function(input,output){
   output$map <- renderLeaflet({
     leaflet(use_data_map()) %>% 
       addTiles() %>%
-      setView(-72.5, 42.4, zoom = 3) %>%
+      setView(-97.5, 37.4, zoom = 3.5) %>%
       addCircleMarkers(lat= ~latitude
                        , lng= ~longitude
                        , popup= paste0(use_data_map()$name_simp,", ", use_data_map()$state_abbrev, "<br>",
                                        map_var_choices[variable_choices == input$var], ": ", use_data_map()$interest_var)
                        , stroke = FALSE 
-                       , radius = 5
+                       , radius = 7
                        , fillColor = ~pal()(use_data_map()$interest_var)
-                       , fillOpacity = 0.9)
+                       , fillOpacity = 1.0) %>%
+      
+      addLegend(pal = pal(), 
+                values = use_data_map()$interest_var, 
+                position = "bottomright", 
+                title = paste0(map_var_choices[variable_choices == input$var]),
+                opacity = 1.0)
   })
 }
 
