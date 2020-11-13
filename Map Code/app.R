@@ -3,14 +3,14 @@ library(datasets)
 library(viridis)
 library(maps)
 library(leaflet)
-library(shinythemes)
 library(rvest)
 library(robotstxt)
 library(tidycensus)
 library(tidytext)
 library(shiny)
+library(shinythemes)
 
-path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
+path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 city_data <- read_csv(paste0(path_in, "dataset.csv"))
 
 
@@ -84,9 +84,15 @@ server <- function(input,output){
   use_data_map <- reactive({
     data <- cities_long %>%
       filter(year == input$year) %>%
-      rename("interest_var" = input$var)
+      rename('interest_var' = input$var)
   })
   
+  pal <- reactive ({
+    mypal <- colorNumeric(
+    palette = "Spectral",
+    domain = use_data_map()$prop_inperson)
+  })
+
   #leaflet map
   output$map <- renderLeaflet({
     leaflet(use_data_map()) %>% 
@@ -98,11 +104,11 @@ server <- function(input,output){
                                        map_var_choices[variable_choices == input$var], ": ", use_data_map()$interest_var)
                        , stroke = FALSE 
                        , radius = 5
+                       , fillColor = ~pal()(use_data_map()$interest_var)
                        , fillOpacity = 0.9)
   })
 }
 
 # call to shinyApp
 shinyApp(ui = ui, server = server)
-
 
