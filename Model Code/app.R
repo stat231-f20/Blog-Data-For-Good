@@ -2,7 +2,7 @@ library(tidyverse)
 library(shiny)
 library(shinyWidgets)
 
-path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
+path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 #path_in <- "/Users/CookieCream45/Desktop/STAT-231/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
@@ -63,7 +63,7 @@ scat_x_choices <- as.list(names(cities)[c(11,12,18,20, 25:33)])
 scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income", 
                   "Median Home Value", "Percent White", 
                   "Percent Black", "Percent Foreign Born", "Percent Married Couple Households", 
-                  "Houses for Sale (Per Capita)", "Percent Only English-speaking", "Vehicles per Household",
+                  "Houses for Sale (Per Capita)", "Percent Only English-Speaking", "Vehicles per Household",
                   "Percent Below Poverty Line", "Percent with College Degree")
 names(scat_x_choices) <- scat_x_names
 
@@ -77,8 +77,8 @@ ui <- fluidPage(
   setBackgroundImage(
     src = "https://s7.bluegreenvacations.com/is/image/BGV/collection-cityscape-sm?$bg2-hero-sm$"),
   
-  h1("Metro Areas, part II"),
-  h5("Grace, Mike, Rodrigo and Steedman"),
+  h1("US Metro Areas, part II"),
+  h5("Grace, Mike, Rodrigo, and Steedman"),
   
   navlistPanel(widths = c(3,9),
     
