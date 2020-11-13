@@ -94,10 +94,10 @@ cities_long$region = ifelse(cities_long$state_abbrev == "PR", "South", cities_lo
 
 #Shiny app variable choices
 variable_choices <- as.list(names(cities_long)[9:22])
-map_var_choices <- c("Median Income",
-                     "Median Home Value",
-                     "Median Age (Male)", 
-                     "Median Age (Female)",
+map_var_choices <- c("Median Income ($)",
+                     "Median Home Value ($)",
+                     "Median Age Male (Years)", 
+                     "Median Age Female (Years)",
                      "Population",
                      "Percent White Population",
                      "Percent Black Population",
@@ -116,6 +116,12 @@ map_year_choices <- as.numeric(c("2013", "2014", "2015", "2016", "2017", "2018")
 #ui
 ui <- fluidPage(
   
+  setBackgroundImage(
+    src = "https://s7.bluegreenvacations.com/is/image/BGV/collection-cityscape-sm?$bg2-hero-sm$"),
+  
+    h1("Metro Areas, part II"),
+    h5("Grace, Mike, Rodrigo and Steedman"),
+  
     tabPanel(title = "Map of US Cities",
              
              selectInput(inputId = "var"
@@ -125,7 +131,7 @@ ui <- fluidPage(
                          , label = "Choose a year of interest:"
                          , choices = map_year_choices),
             
-             leafletOutput("map", height = 700)
+             leafletOutput("map", height = 615)
     )
 )
 
@@ -160,7 +166,7 @@ server <- function(input,output){
       
       addLegend(pal = pal(), 
                 values = use_data_map()$interest_var, 
-                position = "bottomright", 
+                position = "topright", 
                 title = paste0(map_var_choices[variable_choices == input$var]),
                 opacity = 1.0)
   })
