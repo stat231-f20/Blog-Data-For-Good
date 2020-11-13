@@ -107,7 +107,7 @@ map_var_choices <- c("Median Income ($)",
                      "Percent Only English-Speaking Population",
                      "Vehicles per Household",
                      "Percent of Population Below Poverty Line",
-                     "Percent Bachelors (Male and Female)")
+                     "Percent Population with a Bachelors Degree")
 
 names(variable_choices) <- map_var_choices
 
