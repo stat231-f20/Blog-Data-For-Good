@@ -119,21 +119,28 @@ ui <- fluidPage(
   setBackgroundImage(
     src = "https://s7.bluegreenvacations.com/is/image/BGV/collection-cityscape-sm?$bg2-hero-sm$"),
   
-    h1("Metro Areas, part II"),
-    h5("Grace, Mike, Rodrigo and Steedman"),
+  fluidRow(
+    column(3,
+        br(),
+        h1("Map of US Metro Areas"),
+        h4("Grace, Mike, Rodrigo and Steedman")),
   
-    tabPanel(title = "Map of US Cities",
-             
-             selectInput(inputId = "var"
-                         , label = "Choose a variable of interest:"
-                         , choices = variable_choices),
-             selectInput(inputId = "year"
-                         , label = "Choose a year of interest:"
-                         , choices = map_year_choices),
+    column(3, offset = 6,
+        br(),
+        selectInput(inputId = "var"
+              , label = "Choose a variable of interest:"
+              , choices = variable_choices),
+        selectInput(inputId = "year"
+              , label = "Choose a year of interest:"
+              , choices = map_year_choices))),
+    
+    hr(),
             
-             leafletOutput("map", height = 615)
+    leafletOutput("map", height = 650),
+    
+    hr()
+    
     )
-)
 
 server <- function(input,output){
   
