@@ -8,7 +8,7 @@ library(robotstxt)
 library(tidycensus)
 library(tidytext)
 library(shiny)
-library(shinythemes)
+library(shinyWidgets)
 
 path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 city_data <- read_csv(paste0(path_in, "dataset.csv"))
