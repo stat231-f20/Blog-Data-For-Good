@@ -56,15 +56,28 @@ cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
          pct_only_english = only_english/population,
          vehicles_per_hh = num_vehicles/total_hh,
          pct_poverty = poverty/population,
-         pct_bachelors = bachelors/population)
+         pct_bachelors = bachelors/population) %>%
+  select(NAME, name_simp, state_abbrev, state, region, latitude, longitude, pct_pop_change, pop_change, population, median_age_male, 
+         median_age_female,  median_income, median_value, pct_white, pct_black,pct_foreign_born,pct_married_hh,
+         per_capita_for_sale, pct_only_english, vehicles_per_hh, pct_poverty, pct_bachelors)
+
 cities$region = ifelse(cities$state_abbrev == "PR", "South", cities$region)
 
-scat_x_choices <- as.list(names(cities)[c(11,12,18,20, 25:33)])
-scat_x_names <- c("Median Age (Male)", "Median Age (Female)", "Median Income", 
-                  "Median Home Value", "Percent White", 
-                  "Percent Black", "Percent Foreign Born", "Percent Married Couple Households", 
-                  "Houses for Sale (Per Capita)", "Percent Only English-Speaking", "Vehicles per Household",
-                  "Percent Below Poverty Line", "Percent with College Degree")
+scat_x_choices <- as.list(names(cities)[c(11:23)])
+scat_x_names <- c("Median Age Male (Years)", 
+                  "Median Age Female (Years)", 
+                  "Median Income ($)", 
+                  "Median Home Value ($)", 
+                  "Percent White Population", 
+                  "Percent Black Population", 
+                  "Percent Population Foreign Born", 
+                  "Percent Married Couple Households", 
+                  "Houses for Sale (Per Capita)", 
+                  "Percent Population Only English-Speaking", 
+                  "Vehicles per Household",
+                  "Percent Population Below Poverty Line", 
+                  "Percent Population with a Bachelors Degree")
+
 names(scat_x_choices) <- scat_x_names
 
 region_choices <- (cities %>%
