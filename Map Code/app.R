@@ -90,7 +90,7 @@ server <- function(input,output){
   pal <- reactive ({
     mypal <- colorNumeric(
     palette = "Spectral",
-    domain = use_data_map()$prop_inperson)
+    domain = use_data_map()$interest_var)
   })
 
   #leaflet map
