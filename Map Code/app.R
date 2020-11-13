@@ -157,8 +157,10 @@ server <- function(input,output){
       setView(-97.5, 37.4, zoom = 3.5) %>%
       addCircleMarkers(lat= ~latitude
                        , lng= ~longitude
-                       , popup= paste0(use_data_map()$name_simp,", ", use_data_map()$state_abbrev, "<br>",
-                                       map_var_choices[variable_choices == input$var], ": ", use_data_map()$interest_var)
+                       , popup= paste0(use_data_map()$name_simp,", ", 
+                                       use_data_map()$state_abbrev, "<br>",
+                                       map_var_choices[variable_choices == input$var], 
+                                       ": ", round(use_data_map()$interest_var, 3))
                        , stroke = FALSE 
                        , radius = 7
                        , fillColor = ~pal()(use_data_map()$interest_var)
@@ -167,7 +169,8 @@ server <- function(input,output){
       addLegend(pal = pal(), 
                 values = use_data_map()$interest_var, 
                 position = "topright", 
-                title = paste0(map_var_choices[variable_choices == input$var]),
+                title = paste0("Year: ", input$year, "<br>", "<br>", 
+                               map_var_choices[variable_choices == input$var]),
                 opacity = 1.0)
   })
 }
