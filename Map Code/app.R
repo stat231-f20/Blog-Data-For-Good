@@ -89,7 +89,7 @@ server <- function(input,output){
   
   pal <- reactive ({
     mypal <- colorNumeric(
-    palette = "Spectral",
+    palette = "OrRd",
     domain = use_data_map()$interest_var)
   })
 
