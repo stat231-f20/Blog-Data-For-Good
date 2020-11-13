@@ -123,7 +123,7 @@ ui <- fluidPage(
     column(3,
         br(),
         h1("Map of US Metro Areas"),
-        h4("Grace, Mike, Rodrigo and Steedman")),
+        h4("Grace, Mike, Rodrigo, and Steedman")),
   
     column(3, offset = 6,
         br(),
@@ -136,7 +136,7 @@ ui <- fluidPage(
     
     hr(),
             
-    leafletOutput("map", height = 650),
+    leafletOutput("map", height = 630),
     
     hr()
     
