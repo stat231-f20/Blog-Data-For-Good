@@ -10,7 +10,8 @@ library(tidytext)
 library(shiny)
 library(shinyWidgets)
 
-path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
+#path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
+path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 city_data <- read_csv(paste0(path_in, "dataset.csv"))
 
 

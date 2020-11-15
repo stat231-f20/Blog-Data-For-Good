@@ -2,8 +2,9 @@ library(tidyverse)
 library(shiny)
 library(shinyWidgets)
 
-path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
+#path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 #path_in <- "/Users/CookieCream45/Desktop/STAT-231/Blog-Data-For-Good/"
+path_in <- "/Users/steedmanjenkins/git/Blog-Data-For-Good/"
 
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
