@@ -1,0 +1,12 @@
+name: Metro_Areas
+title: Metro_Areas
+username:
+account: sjenkins23
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3237378
+bundleId: 3863756
+url: https://sjenkins23.shinyapps.io/Metro_Areas/
+when: 1605468444.9364
+asMultiple: FALSE
+asStatic: FALSE
