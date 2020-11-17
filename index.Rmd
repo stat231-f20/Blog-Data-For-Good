@@ -81,7 +81,7 @@ map_data <- read_csv("map_data.csv") %>%
 
 mypal <- colorNumeric(
     palette = "OrRd",
-    domain = map_data$pct_bachelors)
+    domain = map_data$median_age_male)
 
 leaflet(map_data) %>% 
       addTiles() %>%
@@ -90,17 +90,17 @@ leaflet(map_data) %>%
                        , lng= ~longitude
                        , popup= paste0(map_data$name_simp,", ", 
                                        map_data$state_abbrev, "<br>",
-                                       "Percent of Population with a Bachelor's Degree", 
-                                       ": ", map_data$pct_bachelors)
+                                       "Median Age (Male)", 
+                                       ": ", map_data$median_age_male)
                        , stroke = FALSE 
                        , radius = 7
-                       , fillColor = mypal(map_data$pct_bachelors)
+                       , fillColor = mypal(map_data$median_age_male)
                        , fillOpacity = 1.0) %>%
       
       addLegend(pal = mypal, 
-                values = map_data$pct_bachelors, 
+                values = map_data$median_age_male, 
                 position = "bottomleft", 
-                title = paste0("Percent of Population", "<br>", "with a Bachelor's Degree", "<br>", "(2018)"),
+                title = paste0("Median Age (Male)", "<br>", "(2018)"),
                 opacity = 1.0)
 
 ```
