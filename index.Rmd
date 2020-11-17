@@ -46,73 +46,10 @@ summary(lm(pct_pop_change ~ pct_married_hh, data = model_data))
 
 ## Limitations
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For example, you can include **Bold** and _Italic_ and `Code` text.  For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Probably the biggest limitation of our work is the small number of years for which we were able to gather data. Data from the American Community Survey is available via `tidycensus` from 2009 to 2018, but many areas were named differently by the ACS from 2009 to 2012. This presented a big enough obstacle to joining the data from these years that we decided to only include years 2013 to 2018. 
 
-You should test out updating your GitHub Pages website:
+Even if we had compiled data from all ten years of the ACS, though, this would still only provide an incomplete picture of the way US Metropolitan Areas have changed over time. Ideally, we would be able to go back several decades and connect patterns in the data with longer-term historical developments (this would require some qualitative background research, which was also beyond the scope of this project). Perhaps in a future Shiny app, we could include data going back into the 20th century and let the user specify the start and end years of a time period they want to look at.
 
-- clone your group's blog project repo in RStudio
-- update "Your Project Title Here" to a new title in the YAML header
-- knit `index.Rmd` 
-- commit and push BOTH the `index.Rmd` and the `index.html` files
-- go to https://stat231-f20.github.io/Blog-Data-For-Good/ to see the published test document (this is publicly available!)
+Our findings are also not necessarily generalizable. We only looked at the one hundred most populous metro areas in the country, which are probably not representative of all of urban and suburban America. A lot of areas on this list might have similar characteristics to say, the next 100 most populated cities and towns, but it is likely that the top cities like New York, Los Angeles and Chicago skew the data. In any case, the map we’ve created has a lot of empty space since most cities are concentrated on the coasts; states like Montana, North and South Dakota, Maine, West Virginia, and Alaska have no data, making it hard to draw conclusions about the spatial distribution of variables across the country.
 
-## Including code and plots
-
-You can embed code as normal, for example:
-
-```{r cars, echo=FALSE}
-mosaic::favstats(~speed, data = cars)
-```
-
-Let's clean up the format of that output:
-
-```{r pretty, echo=FALSE, warning=FALSE, message=FALSE}
-library(kableExtra)
-summary(cars) %>%
-  kable(col.names = c("Speed", "Distance")
-        , row.names = F) %>%
-  kable_styling(bootstrap_options = "striped"
-                , full_width = F) %>%
-  row_spec(0, bold = T, underline = T) %>%
-  column_spec(1:2, width = "1.5in") 
-```
-
-In a study from the 1920s, fifty cars were used to see how the speed of the car and the distance taken to stop were related.  Speeds ranged between `r min(cars$speed)` and `r max(cars$speed)` mph.  Distances taken to stop ranged between `r min(cars$dist)` and `r max(cars$dist)` feet, with the middle 50% falling between `r as.numeric(quantile(cars$dist)[2])` and `r as.numeric(quantile(cars$dist)[4])` feet.  
-
-You can also embed plots as normal, for example:
-
-```{r figure1, echo=FALSE}
-ggplot(data = cars, aes(x = speed, y = dist)) + 
-  geom_point() + 
-  labs(x = "Speed of car (mph)"
-       , y = "Distance taken to stop (ft)"
-       , title = "cars data (1920s)")
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-
-## Including links and images
-
-You can include [Links](https://www.datadreaming.org/post/r-markdown-theme-gallery/) and images ![team logo](https://raw.githubusercontent.com/stat231-f20/Blog-Data-For-Good/main/images/data_for_good.png)
-
-
-# You can even create tabs if you want! {.tabset .tabset-fade .tabset-pills}
-
-## Bulleted list
-
-You can make a bulleted list like this:
-
-- item 1
-- item 2
-- item 3
-
-
-## Numbered list
-
-You can make a numbered list like this
-
-1. First thing I want to say
-2. Second thing I want to say
-3. Third thing I want to say
-
+Finally, our model does an imperfect job of answering our main question: what factors contribute to cities’ wellbeing? This component of our Shiny app uses population growth from 2013 to 2018 as a proxy for wellbeing, when this is obviously not the ultimate indicator of how successful a city is or how high a quality of life its residents have. And even if population growth were a perfect measure, the cities that grew the most from 2013 to 2018 are not necessarily the ones that are growing the fastest right now or even the ones that have grown the most over the past twenty or fifty years. Our question, of course, is incredibly complex, and the answer probably involves an interaction between a multitude of variables. Still, the interactivity of our Shiny app presents the user with a number of thought-provoking patterns and relationships, which, hopefully, will lead to more good questions.
