@@ -19,12 +19,15 @@ library(tidycensus)
 
 ```
 
+# *What factors contribute to population growth in American Cities?*
+
 [Link to old Shiny App](https://sjenkins23.shinyapps.io/metro_areas_1/?_ga=2.259223753.2139815388.1605468268-618769786.1599849958)
 
 [Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
 
 ## Background and Motivation
 
+For our project, we decided to continue upon the data and observations that were the crux of our previous analysis. This data, which looked at several variables around the major metropolitan areas of the United States, proved its importance to us by allowing us to identify factors that correlate to a change in population in the higher populated areas in the country. While our last work had more of a spotlight on the variables we noticed, and how each variable presented itself throught the various regions of the country, this iteration has more of a focus on how the variables we chose to examine have changed over time. We analyzed the data and visualized it using both a geographical map, which allows the user to easily navigate and select variables of interest across an annual basis, and a scatterplot with a linear regression model, which allows the user to better see how the variables change as well as their correlation with population growth. The results of our findings and our related conclusions tell a story about how the major metropolitan areas of America have changed over time, and which variables correlate--and perhaps even causate--to population growth or decay in these urban areas.
 
 
 ## Data
