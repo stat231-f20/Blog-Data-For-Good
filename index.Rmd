@@ -1,5 +1,5 @@
 ---
-title: "US Metro Areas"
+title: "US Metro Areas: Spatial and Statistical Analysis of Wellbeing"
 author: "Grace, Rodrigo, Steedman and Mike"
 date: "11/16/2020"
 output:
@@ -15,6 +15,7 @@ library(tidyverse)
 library(rmdformats)
 library(leaflet)
 library(maps)
+library(tidycensus)
 
 ```
 
@@ -24,11 +25,49 @@ library(maps)
 
 ## Background and Motivation
 
+
+
 ## Data
+
+To answer our questions of interest and extend our midterm project, we returned to the ‘tidycensus’ package. Tidycensus is an R package that allows users to access data from the US Census Bureau’s decennial Census and American Community Survey. More information about the basics of working with the ‘tidycensus’ package can be found here. We referred to this resource often throughout our project to learn about the basic functions and capabilities of tidycensus.
+
+For our midterm project, we pulled 2018 American Community Survey data for US metropolitan areas (check out our midterm Shiny App here!). Transitioning to our final project, we decided to still focus on US metro areas, but further explore the possibilities of the ‘tidycensus’ package by pulling data from more years and adding new variables of interest. Our vision was to create blog components that would allow users to explore the change in ACS data over time. We also were interested in using variable change over time as a method to measure the ‘wellbeing’ of a city. 
+
+As we started compiling our new dataset, we quickly found that American Community Survey data was only available for metro areas via ‘tidycensus’ from 2009 to 2018. Because of this limitation, we chose to focus on this specific time range for our project. The next step in our data collection process was to select and compile variables of interest for all of our different years and cities. Variables are encoded within tidycensus (i.e B01003_001 = population). Thus, in order to access data using the get_acs function, one must know the variable’s specific code. Very quickly, we found that some of the variables we used in our midterm project had different codes for different years, complicating our data collection process. Therefore, a large part of this section of our project became filtering through the ACS 2009 - 2018 data to find variables/variable codes that were consistent for all of the years. Eventually we compiled the following list: 
+
+population = "B01003_001"
+median_income = "B19326_001" 
+foreign_born = "B05002_013"
+median_value = "B25077_001"
+married_households = "B11001_003"
+total_households = "B11001_001"
+houses_for_sale = "B25004_004"
+pop_white_alone = "B02001_002"
+pop_black_alone = "B02001_003"
+median_age_female = "B01002_003"
+median_age_male = "B01002_002"
+under_poverty_line = "B10059_002"
+bachelors_degree = "B15003_022"
+
+After collecting these variable codes, we used a for loop to compile the data from all of the different years. Using a for loop was a really convenient way for us to avoid having to individually compile and join datasets for each year. Although difficult to understand out of context, here is a snippet of our for loop code to get a sense of the process of obtaining data via tidy census:
+
+```{r, eval = FALSE}
+for (i in 2013:2017){
+  df <- get_acs(geography = geo, variables = vars, year = i)%>%
+pivot_wider(id_cols = NAME, names_prefix = paste0("y", i, "_"), names_from = variable, values_from = estimate)
+  cities <- cities %>% left_join(df,
+            by = "NAME")
+}
+```
+
+
+Lastly, we knew we wanted to eventually create a leaflet map, so we joined our dataset with the mdsr WorldCities dataset to obtain latitude and longitude coordinates for our US metro areas. We had to hardcode coordinates for San Antonio, San Juan, Virginia Beach, and McAllen because they were not in the WorldCities dataset. Later, while we were creating the map, we realized some of the coordinates were wrong because we had joined the mdsr dataset by city name and some cities have the same name (i.e Portland, Oregon was showing up in Portland, Maine). We hardcoded to correct the instances with this issue.
+
+
 
 ## Findings
 
-Play around with Shiny App and include a few interesting instances of map/model output.
+Explain features of the new Shiny App (links to old and new shiny app at the top of our rmd) and include a few interesting instances of map/model output.
 
 ```{r, echo=FALSE, message=FALSE}
 
@@ -90,3 +129,10 @@ Even if we had compiled data from all ten years of the ACS, though, this would s
 Our findings are also not necessarily generalizable. We only looked at the one hundred most populous metro areas in the country, which are probably not representative of all of urban and suburban America. A lot of areas on this list might have similar characteristics to say, the next 100 most populated cities and towns, but it is likely that the top cities like New York, Los Angeles and Chicago skew the data. In any case, the map we’ve created has a lot of empty space since most cities are concentrated on the coasts; states like Montana, North and South Dakota, Maine, West Virginia, and Alaska have no data, making it hard to draw conclusions about the spatial distribution of variables across the country.
 
 Finally, our model does an imperfect job of answering our main question: what factors contribute to cities’ wellbeing? This component of our Shiny app uses population growth from 2013 to 2018 as a proxy for wellbeing, when this is obviously not the ultimate indicator of how successful a city is or how high a quality of life its residents have. And even if population growth were a perfect measure, the cities that grew the most from 2013 to 2018 are not necessarily the ones that are growing the fastest right now or even the ones that have grown the most over the past twenty or fifty years. Our question, of course, is incredibly complex, and the answer probably involves an interaction between a multitude of variables. Still, the interactivity of our Shiny app presents the user with a number of thought-provoking patterns and relationships, which, hopefully, will lead to more good questions.
+
+
+## Bibliography
+TidyCensus
+Mdsr WorldCities
+
+
