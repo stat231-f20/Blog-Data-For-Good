@@ -1,7 +1,7 @@
 ---
-title: "Hello"
+title: "US Metro Areas"
 author: "Grace, Rodrigo, Steedman and Mike"
-date: "Last updated 11/17/2020"
+date: "11/16/2020"
 output:
   rmdformats::readthedown:
     thumbnails: false
@@ -9,12 +9,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE, fig.align="center")
 library(tidyverse)
 library(rmdformats)
-```
+library(leaflet)
+library(maps)
 
-# This is an intriguing sentence. You want to read more after reading this.
+```
 
 [Link to old Shiny App](https://sjenkins23.shinyapps.io/metro_areas_1/?_ga=2.259223753.2139815388.1605468268-618769786.1599849958)
 
@@ -27,6 +29,39 @@ library(rmdformats)
 ## Findings
 
 Play around with Shiny App and include a few interesting instances of map/model output.
+
+```{r, echo=FALSE, message=FALSE}
+
+map_data <- read_csv("map_data.csv") %>%
+  filter(year == 2018)
+
+mypal <- colorNumeric(
+    palette = "OrRd",
+    domain = map_data$pct_bachelors)
+
+leaflet(map_data) %>% 
+      addTiles() %>%
+      setView(-97.5, 37.4, zoom = 3.5) %>%
+      addCircleMarkers(lat= ~latitude
+                       , lng= ~longitude
+                       , popup= paste0(map_data$name_simp,", ", 
+                                       map_data$state_abbrev, "<br>",
+                                       "Percent of Population with a Bachelor's Degree", 
+                                       ": ", map_data$pct_bachelors)
+                       , stroke = FALSE 
+                       , radius = 7
+                       , fillColor = mypal(map_data$pct_bachelors)
+                       , fillOpacity = 1.0) %>%
+      
+      addLegend(pal = mypal, 
+                values = map_data$pct_bachelors, 
+                position = "bottomleft", 
+                title = paste0("Percent of Population", "<br>", "with a Bachelor's Degree", "<br>", "(2018)"),
+                opacity = 1.0)
+
+```
+
+
 
 ```{r, echo=FALSE, message=FALSE}
 #import pre-wrangled data
@@ -42,6 +77,8 @@ ggplot(data = model_data, aes(x = pct_married_hh, y = pct_pop_change)) +
       theme_bw()
 summary(lm(pct_pop_change ~ pct_married_hh, data = model_data))
 ```
+
+
 
 
 ## Limitations
