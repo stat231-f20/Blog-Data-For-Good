@@ -1,6 +1,6 @@
 ---
-title: "US Metro Areas: Spatial and Statistical Analysis of Wellbeing"
-author: "Grace, Rodrigo, Steedman and Mike"
+title: "US Metro Areas: Using 'tidycensus' to find spatial patterns and address questions of wellbeing"
+author: "Grace, Rodrigo, Steedman, and Mike"
 date: "11/16/2020"
 output:
   rmdformats::readthedown:
@@ -153,7 +153,7 @@ Finally, our model does an imperfect job of answering our main question: what fa
 
 
 ## Bibliography
-TidyCensus
-Mdsr WorldCities
+*TidyCensus
+*Mdsr WorldCities
 
 
