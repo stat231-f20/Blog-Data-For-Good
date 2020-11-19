@@ -1,9 +1,9 @@
 ---
-title: "US Metro Areas: Using 'tidycensus' to find spatial patterns and address questions of wellbeing"
+title: "US Metro Areas: A Statistcal Analysis with 'Tidycensus' Data"
 author: "Grace, Rodrigo, Steedman, and Mike"
 date: "11/16/2020"
 output:
-  rmdformats::readthedown:
+  rmdformats::material:
     thumbnails: false
     highlight: NULL
 ---
@@ -21,11 +21,11 @@ library(tidycensus)
 
 # *What factors contribute to population growth in American Cities?*
 
-[Link to old Shiny App](https://sjenkins23.shinyapps.io/metro_areas_1/?_ga=2.259223753.2139815388.1605468268-618769786.1599849958)
-
 [Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
 
 ## Background and Motivation
+
+
 
 For our project, we decided to continue upon the data and observations that served as the centerpiece of our previous analysis. This data, which looked at several variables around the major metropolitan areas of the United States, was deemed important as it allowed us to identify factors that correlate to a change in population in the higher populated areas in the country. While our last work had more of a spotlight on the variables we noticed, and how each variable presented itself throughout the various regions of the country, this iteration has more of a focus on how the variables we chose to examine have changed over time. We analyzed the data and visualized it using both a geographical map, which allows the user to easily navigate and select variables of interest across an annual basis, and a scatterplot with a linear regression model, which allows the user to better see how the variables change as well as their correlation with population growth. The results of our findings and our related conclusions tell a story about how the major metropolitan areas of America have changed over time, and which variables correlate--and perhaps even causate--to population growth or decay in these urban areas.
 
@@ -76,6 +76,7 @@ Lastly, we knew we wanted to eventually create a leaflet map, so we joined our d
 ## Analysis and Findings
 
 With the coordinates assigned correctly, we then created a shiny web application containing a Leaflet map, which allows the user to compare the values for all fourteen of our variables over the six years of our data. Using the colorNumeric() function from Leaflet, every city is represented by a dot shaded on a scale containing the values of the selected variable, showing darker shades for higher values:
+
 ```{r eval=FALSE}
 colorNumeric(
       palette = "OrRd",
@@ -135,6 +136,8 @@ summary(lm(pct_pop_change ~ pct_married_hh, data = model_data))
 ```
 
 With a p-value extremely close to zero, we may reasonably conclude that the percentage of married-couple households is a significant predictor for percent change in population. According to our model, an increase of 0.01 in the percentage of married-couple households will result, on average, in a 0.03 percent increase in the percent change in population (these percent increases are arithmetic, not geometric, e.g. .92 + 0.01 not .92 * 1.01). The correlation of determination (0.3104, 0.3033 adjusted) suggests that 31.04% of the variation of the percent change in population can be explained by this predictor - quite impressive for a single variable! From our analysis, this is the best single predictor for percent change in population in our dataset. We will clarify that we cannot conclude an increase in married-couple households _causes_ an increase in population growth (as this is not an experiment).
+
+## Main Takeaways from the Shiny App
 
 A few other variables were shown to be significant: the Median Age, both Male and Female, Percentage of the Population that is Foreign-Born, Number of Vehicles per Household, and the Percentage of the Population with a Bachelor’s Degree. These, however, did not account for as much variability as the Percentage of Married-Couple Households (the highest other than the latter being Number of Vehicles, with an r-squared of about 0.08). The scatterplot and model output is included within the shiny app.
 
