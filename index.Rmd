@@ -1,9 +1,9 @@
 ---
-title: "US Metro Areas: A Statistcal Analysis with 'Tidycensus' Data"
+title: "US Metro Areas: Using 'tidycensus' to Answer Social Justice Questions"
 author: "Grace, Rodrigo, Steedman, and Mike"
 date: "11/16/2020"
 output:
-  rmdformats::material:
+  rmdformats::readthedown:
     thumbnails: false
     highlight: NULL
 ---
@@ -20,7 +20,7 @@ library(tidycensus)
 ```
 
 # *What factors contribute to population growth in American Cities?*
-
+##subtitle: "What social justice conclusions can we draw from 'tidycensus' American Community Survey data?"
 [Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
 
 ## Background and Motivation
