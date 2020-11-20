@@ -23,24 +23,22 @@ library(tidycensus)
 
 # Background and Motivation
 
-Social justice is all about human interaction. How do people interact? What privileges and biases are woven into the ways people interact? How is wealth and opportunity distributed amongst individuals in society? Asking social justice questions directly realtes to asking questions about people. Therefore, with higher concentrations of people, cities are the perfect unit of analysis for social justice topics. With people living in close proximity, cities are where people, cultures, backgrounds, biases, and privileges collide.  
+Social justice is all about human interaction. How do people interact? What privileges and biases are woven into the ways people interact? How is wealth and opportunity distributed amongst individuals in society? Asking social justice questions directly relates to asking questions about people. Therefore, with high concentrations of people, cities are the perfect unit of analysis for social justice topics. With people living in close proximity, cities are where people, cultures, backgrounds, biases, and privileges collide.  
 
-With this line of thinking in mind, we turned to American cities and metro areas as the main unit of analysis for our PUG midterm/final project. Originally we were curious about quantifying the wellbeing of a city. Is it possible to measure the wellbeing of a city? What factors contribute to wellbeing? From wealth to health, we quickly found that answering these questions was a complex task that would require considering an infinite amount of contributing variables. Because of this, we narrowed our definition of wellbeing. As a group, we decided to focus on change in population as a holistic measure of a city’s wellbeing. We reasoned that increasing population would be an indicator of positive growth/wellbeing and decreasing population would be an indicator of negative growth/wellbeing. Thus, our question of interest evolved from ‘what factors contribute to the wellbeing of American cities?” to “what factors contribute to population growth in American cities?” 
+With this line of thinking in mind, we turned to American cities and metro areas as the main unit of analysis for our PUG midterm/final project. Originally, we were curious about quantifying the wellbeing of a city. Is it possible to measure the wellbeing of a city? What factors contribute to wellbeing? From wealth to health, we quickly found that answering these questions is a complex task that requires considering an infinite amount of contributing variables. Because of this, we narrowed our definition of wellbeing. As a group, we decided to focus on change in population as a holistic measure of a city’s wellbeing. We reasoned that increasing population would be an indicator of positive growth/wellbeing and decreasing population would be an indicator of negative growth/wellbeing. Thus, our question of interest evolved from ‘what factors contribute to the wellbeing of American cities?” to “what factors contribute to population growth in American cities?” 
 
 ## *What factors contribute to population growth in American Cities?*
 
-To address this question, we chose to create a Shiny App with an interactive linear regression model and leaflet map. The map allows users to spatially visualize the variation in our variables of interest and observe their change over time. One of the main takeaways from our midterm project was the observed relationships between city regions and the concentration of high/low values of our variables. Thus, our leaflet map serves as a way to further explore these relationships and presents them in a manner that is more understandable for the viewer. Although not specifically connected to our goal of finding factors that contribute to population growth, the map serves as a nice way to familiarize users with our variables and contextualize the relationships present in the scatter plot/ linear regression model. In the model and scatter plot section of our Shiny App, the user has the option to select a variable of interest and then see if the variable IS or IS NOT a significant predictor of change in population. 
+To address this question, we chose to create a Shiny App with an interactive linear regression model and leaflet map. The map allows users to spatially visualize the variation in our variables of interest and observe their change over time. One of the main takeaways from our midterm project was the observed relationships between city regions and the concentration of high/low values of our variables. Thus, our leaflet map serves as a way to further explore these relationships and presents them in a manner that is more understandable for the viewer. Although not specifically connected to our goal of finding factors that contribute to population growth, the map serves as a nice way to familiarize users with our variables and visualize the relationships present in the scatter plot/linear regression model. In the model and scatter plot section of our Shiny App, the user has the option to select a variable of interest and then see if the variable IS or IS NOT a significant predictor of change in population. 
 
 Although with many limitations, the results of our findings and our related conclusions tell a story about how the major metropolitan areas of America have changed over time, and which variables correlate--and perhaps even causate--to population growth or decay in these metro areas.
-
-
 
 # Data
 ## TidyCensus
 
-To answer our questions of interest and extend our midterm project, we returned to the ‘tidycensus’ package. Tidycensus is an R package that allows users to access data from the US Census Bureau’s decennial Census and American Community Survey. More information about the basics of working with the ‘tidycensus’ package can be found [here](https://walker-data.com/tidycensus/index.html). We referred to this resource often throughout our project to learn about the basic functions and capabilities of tidycensus.
+We returned to the ‘tidycensus’ package to collect data for our analysis of population growth in American cities. Tidycensus is an R package that allows users to access data from the US Census Bureau’s decennial Census and American Community Survey. More information about the basics of working with the ‘tidycensus’ package can be found [here](https://walker-data.com/tidycensus/index.html). We referred to this resource often throughout our project to learn about the basic functions and capabilities of tidycensus.
 
-For our midterm project, we pulled 2018 American Community Survey data for US metropolitan areas (check out our midterm Shiny App [here!](https://sjenkins23.shinyapps.io/metro_areas_1/?_ga=2.259223753.2139815388.1605468268-618769786.1599849958)). Transitioning to our final project, we decided to still focus on US metro areas, but further explore the possibilities of the ‘tidycensus’ package by pulling data from more years and adding new variables of interest. Our vision was to create blog components that would allow users to explore the change in ACS data over time. We also were interested in using variable change over time as a method to measure the ‘wellbeing’ of a city. 
+For our midterm project, we pulled 2018 American Community Survey data for US metropolitan areas (check out our midterm Shiny App [here!](https://sjenkins23.shinyapps.io/metro_areas_1/?_ga=2.259223753.2139815388.1605468268-618769786.1599849958)). With out final project's focus on analyzing change over time, we needed to pull data from years from 'tidycensus'.
 
 As we started compiling our new dataset, we quickly found that American Community Survey data was only available for metro areas via ‘tidycensus’ from 2009 to 2018. Because of this limitation, we chose to focus on this specific time range for our project. The next step in our data collection process was to select and compile variables of interest for all of our different years and cities. Variables are encoded within tidycensus (i.e B01003_001 = population). Thus, in order to access data using the get_acs function, one must know the variable’s specific code. Very quickly, we found that some of the variables we used in our midterm project had different codes for different years, complicating our data collection process. Therefore, a large part of this section of our project became filtering through the ACS 2009 - 2018 data to find variables/variable codes that were consistent for all of the years. Eventually we compiled the following list:
 
@@ -76,23 +74,21 @@ for (i in 2013:2017){
 ```
 
 
-Lastly, we knew we wanted to eventually create a leaflet map, so we joined our dataset with the mdsr WorldCities dataset to obtain latitude and longitude coordinates for our US metro areas. We had to hardcode coordinates for San Antonio, San Juan, Virginia Beach, and McAllen because they were not in the WorldCities dataset. Later, while we were creating the map, we realized some of the coordinates were wrong because we had joined the mdsr dataset by city name and some cities have the same name (i.e Portland, Oregon was showing up in Portland, Maine). We hardcoded to correct the instances with this issue.
+Lastly, because one of our end goals of this project was to create leaflet map, we needed to find the latitude and longitiude coordinates for our US metro areas. To accomplish this, we joined our dataset with the mdsr WorldCities dataset. We had to hardcode coordinates for San Antonio, San Juan, Virginia Beach, and McAllen because they were not in the WorldCities dataset. Later, while we were creating the map, we realized some of the coordinates were wrong because we had joined the mdsr dataset by city name and some cities have the same name (i.e Portland, Oregon was showing up in Portland, Maine). We hardcoded to correct the instances with this issue.
 
 # Shiny App
 
-[Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
+With our dataset compiled, we then created a shiny web application containing a Leaflet map and linear regression model. 
+
+[Explore our Shiny Application here!](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
 
 # Analysis and Findings
 
-With the coordinates assigned correctly, we then created a shiny web application containing a Leaflet map, which allows the user to compare the values for all fourteen of our variables over the six years of our data. Using the colorNumeric() function from Leaflet, every city is represented by a dot shaded on a scale containing the values of the selected variable, showing darker shades for higher values:
+Our map and model are filled with all sorts of interesting relationships and conclusions. 
 
-```{r eval=FALSE}
-colorNumeric(
-      palette = "OrRd",
-      domain = use_data_map()$interest_var)
-```
+## Map
 
-A single selection is included below, showing the median male age in 2018. The reader can enter the Shiny application at the top of the page to experiment with different variables and years, as well as view specific selected values for individual cities.
+One of the most interesting relationships from the map portion of the Shiny App is shown below. It displays the median male age of each city in 2018. As the map displays, cities in Florida tend to have a higher median male age. The user can enter the Shiny application at the top of the page to experiment with different variables and years, as well as view specific selected values for individual cities.
 
 ```{r, echo=FALSE, message=FALSE}
 
@@ -127,6 +123,8 @@ leaflet(map_data) %>%
 
 A key piece of insight from using spatial data is how it opens up an opportunity to explore this data on different levels - as seen with the Florida example, there are patterns to be found on a state level, but quick comparisons of city data can be done with the map as is. Just as any other map, visualizations of spatial data allow for easier navigation. The model, which will follow shortly, provides further insight.
 
+## Model
+
 There can probably never be an objective indicator of well-being, but we believed a city’s change in population could be considered a good measurement - the idea of this being that cities with growing populations must have some beneficial factor in a person’s life, thus justifying people moving in (or, at the very least, not moving out). Inside the Shiny app, a scatterplot was created comparing the predictor variables - which the user may select accordingly - with the percent change in population. Included below is the scatterplot of Percent of Married-Couple Households and Percent Population Change (also displaying the population, marked by the size of every dot), along with the fitting and analysis of its model.
 
 ```{r, echo=FALSE, message=FALSE}
@@ -144,7 +142,7 @@ ggplot(data = model_data, aes(x = pct_married_hh, y = pct_pop_change)) +
 summary(lm(pct_pop_change ~ pct_married_hh, data = model_data))
 ```
 
-With a p-value extremely close to zero, we may reasonably conclude that the percentage of married-couple households is a significant predictor for percent change in population. According to our model, an increase of 0.01 in the percentage of married-couple households will result, on average, in a 0.03 percent increase in the percent change in population (these percent increases are arithmetic, not geometric, e.g. .92 + 0.01 not .92 * 1.01). The correlation of determination (0.3104, 0.3033 adjusted) suggests that 31.04% of the variation of the percent change in population can be explained by this predictor - quite impressive for a single variable! From our analysis, this is the best single predictor for percent change in population in our dataset. We will clarify that we cannot conclude an increase in married-couple households _causes_ an increase in population growth (as this is not an experiment).
+With a p-value extremely close to zero, we may reasonably conclude that the percentage of married-couple households is a significant predictor for percent change in population. According to our model, an increase of 0.01 in the percentage of married-couple households will result, on average, in a 0.03 percent increase in the percent change in population (these percent increases are arithmetic, not geometric, e.g. .92 + 0.01 not .92 * 1.01). The correlation of determination (0.3104, 0.3033 adjusted) suggests that 31.04% of the variation of the percent change in population can be explained by this predictor - quite impressive for a single variable! From our analysis, this is the best single predictor for percent change in population in our dataset. Maybe more people are attracted to a city if there is a larger number of married couples, implying more families? We will clarify that we cannot conclude an increase in married-couple households _causes_ an increase in population growth (as this is not an experiment).
 
 A few other variables were shown to be significant: the Median Age, both Male and Female, Percentage of the Population that is Foreign-Born, Number of Vehicles per Household, and the Percentage of the Population with a Bachelor’s Degree. These, however, did not account for as much variability as the Percentage of Married-Couple Households (the highest other than the latter being Number of Vehicles, with an r-squared of about 0.08). The scatterplot and model output is included within the shiny app.
 
@@ -161,10 +159,10 @@ Our findings are also not necessarily generalizable. We only looked at the one h
 
 Finally, our model does an imperfect job of answering our main question: what factors contribute to cities’ wellbeing? This component of our Shiny app uses population growth from 2013 to 2018 as a proxy for wellbeing, when this is obviously not the ultimate indicator of how successful a city is or how high a quality of life its residents have. And even if population growth were a perfect measure, the cities that grew the most from 2013 to 2018 are not necessarily the ones that are growing the fastest right now or even the ones that have grown the most over the past twenty or fifty years. Our question, of course, is incredibly complex, and the answer probably involves an interaction between a multitude of variables. Still, the interactivity of our Shiny app presents the user with a number of thought-provoking patterns and relationships, which, hopefully, will lead to more good questions.
 
-provided interesting background and realtionships that might be interesting for future projects. 
+Overall, although our project and conclusions have many limitations, the relationships displayed in the Shiny App point to interesting relationships that might be interesting for future, more specific, statistical analyses of US metro areas and wellbeing. 
 
 
-# Bibliography
+# Sources
 *TidyCensus
 *Mdsr WorldCities
 
