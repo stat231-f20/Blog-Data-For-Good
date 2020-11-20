@@ -19,8 +19,14 @@ library(tidycensus)
 
 ```
 
-# Introduction, Background, and Motivation
+
+![](/Users/glecates/Git/Blog-Data-For-Good/blog picture.jpeg)
+
+# Background and Motivation
+
 ## *What social justice conclusions can we draw from 'tidycensus' American Community Survey data?*
+
+
 ## *What factors contribute to population growth in American Cities?*
 
 
