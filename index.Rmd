@@ -163,7 +163,20 @@ Overall, although our project and conclusions have many limitations, the relatio
 
 
 # Sources
-*TidyCensus
-*Mdsr WorldCities
+*   Kyle Walker and Matt Herman (2020). tidycensus: Load US Census Boundary and Attribute Data
+  as 'tidyverse' and 'sf'-Ready Data Frames. R package version 0.10.2.
+  https://CRAN.R-project.org/package=tidycensus
 
+*   Ben Baumer, Nicholas Horton and Daniel Kaplan (2019). mdsr: Complement to 'Modern Data
+  Science with R'. R package version 0.1.7. https://CRAN.R-project.org/package=mdsr
+  
+*   Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2019). leaflet: Create Interactive Web Maps with
+  the JavaScript 'Leaflet' Library. R package version 2.0.3.
+  https://CRAN.R-project.org/package=leaflet
+  
+*   Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2020). shiny: Web
+  Application Framework for R. R package version 1.5.0. https://CRAN.R-project.org/package=shiny
 
+*   Original S code by Richard A. Becker, Allan R. Wilks. R version by Ray Brownrigg. Enhancements
+  by Thomas P Minka and Alex Deckmyn. (2018). maps: Draw Geographical Maps. R package version
+  3.3.0. https://CRAN.R-project.org/package=maps
