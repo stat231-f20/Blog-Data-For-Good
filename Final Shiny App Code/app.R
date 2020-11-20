@@ -6,11 +6,10 @@ library(leaflet)
 library(shiny)
 library(shinyWidgets)
 
-#path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
+path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 #path_in <- "/Users/CookieCream45/Desktop/STAT-231/Blog-Data-For-Good/"
-path_in <- ""
 
-##model data
+## model data
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
   mutate(pop_change = y2018_population - y2013_population,
          pct_pop_change = pop_change/y2013_population,
@@ -204,50 +203,45 @@ ui <- fluidPage(
   setBackgroundImage(
     src = "https://s7.bluegreenvacations.com/is/image/BGV/collection-cityscape-sm?$bg2-hero-sm$"),
   
-  h1("US Metro Areas, part II"),
-  h5("Grace, Mike, Rodrigo, and Steedman"),
-  
-  navlistPanel(widths = c(3,9),
+  navbarPage(title = "US Metro Areas",
                
                #map
                tabPanel(title = "Map",
                         
-                        h3("How are variables of interest distributed spatially across top US metro areas?", 
-                           br(),
-                           "And how have they changed over time?"),
+                        h2("How are variables of interest distributed spatially across top US metro areas?
+                            How have they changed over time?"),
                         
-                        selectInput(inputId = "var"
+                          selectInput(inputId = "var"
                                     , label = "Choose a variable of interest:"
                                     , choices = variable_choices),
-                        selectInput(inputId = "year"
+                          selectInput(inputId = "year"
                                     , label = "Choose a year of interest:"
                                     , choices = map_year_choices),
-                        leafletOutput("map", height = 630)),
+                        
+                          leafletOutput("map", height = 630, width = 1375)),
                
                #model
                tabPanel(title = "Model",
                         
                         h2("Which variables are significant predictors of population growth?"),
-                        
-                        selectInput(inputId = "x"
+          
+                          selectInput(inputId = "x"
                                     , label = "Choose a predictor variable of interest:"
                                     , choices = scat_x_choices),
-                        selectInput(inputId = "city"
+                          selectInput(inputId = "city"
                                     , label = "Identitfy a city in the scatterplot:"
                                     , choices = city_choices),
-                        checkboxGroupInput(inputId = "region"
+                          checkboxGroupInput(inputId = "region"
                                            , label = "Choose a region of the U.S:"
                                            , choices = region_choices
                                            , selected = region_choices
                                            , inline = TRUE),
                         
-                        textOutput(outputId = "significance"),
-                        plotOutput(outputId = "scatter"),
-                        verbatimTextOutput(outputId = "model")
-               )
-               
+                            textOutput(outputId = "significance"),
+                            plotOutput(outputId = "scatter"),
+                            verbatimTextOutput(outputId = "model")
   )
-)
+))
 
 server <- function(input,output){
   
