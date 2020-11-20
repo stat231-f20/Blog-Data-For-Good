@@ -162,7 +162,7 @@ Our findings are also not necessarily generalizable. We only looked at the one h
 
 Finally, our model does an imperfect job of answering our main question: what factors contribute to cities’ wellbeing? This component of our Shiny app uses population growth from 2013 to 2018 as a proxy for wellbeing, when this is obviously not the ultimate indicator of how successful a city is or how high a quality of life its residents have. And even if population growth were a perfect measure, the cities that grew the most from 2013 to 2018 are not necessarily the ones that are growing the fastest right now or even the ones that have grown the most over the past twenty or fifty years. Our question, of course, is incredibly complex, and the answer probably involves an interaction between a multitude of variables. Still, the interactivity of our Shiny app presents the user with a number of thought-provoking patterns and relationships, which, hopefully, will lead to more good questions.
 
-Overall, although our project and conclusions have many limitations, the relationships displayed in the Shiny App point to interesting relationships that might be interesting for future, more specific, statistical analyses of US metro areas and wellbeing. 
+Overall, although our project and conclusions have many limitations, the findings displayed in the Shiny App point to interesting relationships that might be interesting for future, more specific, statistical analyses of US metro areas and wellbeing. 
 
 
 # Sources
