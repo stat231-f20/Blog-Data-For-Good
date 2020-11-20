@@ -25,8 +25,7 @@ library(tidycensus)
 
 Social justice is all about human interaction. How do people interact? What privileges and biases are woven into the ways people interact? How is wealth and opportunity distributed amongst individuals in society? Asking social justice questions cannot be separated from asking questions about people. Therefore, with higher concentrations of people, cities are the perfect unit of analysis for social justice topics. WIth people living in close proximity, cities are where people, cultures, backgrounds, biases, and privileges collide.  
 
-## *What social justice conclusions can we draw from 'tidycensus' American Community Survey data?*
-
+With this line of thinking in mind, we turned to American cities and metro areas as the main unit of analysis for our PUG midterm/final project. Originally we were curious about quantifying the wellbeing of a city. Is it possible to measure the wellbeing of a city? What factors contribute to wellbeing? From wealth to health, we quickly found that answering these questions was a complex task that required considering an infinite amount of contributing variables. Because of this, we narrowed our definition of wellbeing. As a group, we decided to focus on change in population as a holistic measure of a city’s wellbeing. We reasoned that increasing population would be an indicator of positive growth/wellbeing and decreasing population would be an indicator of negative growth/wellbeing. Thus, our question of interest evolved from ‘what factors contribute to the wellbeing of American cities?” to “what factors contribute to population growth in American cities?” 
 
 ## *What factors contribute to population growth in American Cities?*
 
@@ -78,6 +77,10 @@ for (i in 2013:2017){
 Lastly, we knew we wanted to eventually create a leaflet map, so we joined our dataset with the mdsr WorldCities dataset to obtain latitude and longitude coordinates for our US metro areas. We had to hardcode coordinates for San Antonio, San Juan, Virginia Beach, and McAllen because they were not in the WorldCities dataset. Later, while we were creating the map, we realized some of the coordinates were wrong because we had joined the mdsr dataset by city name and some cities have the same name (i.e Portland, Oregon was showing up in Portland, Maine). We hardcoded to correct the instances with this issue.
 
 # Shiny App
+
+[Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
+
+# Analysis and Findings
 
 With the coordinates assigned correctly, we then created a shiny web application containing a Leaflet map, which allows the user to compare the values for all fourteen of our variables over the six years of our data. Using the colorNumeric() function from Leaflet, every city is represented by a dot shaded on a scale containing the values of the selected variable, showing darker shades for higher values:
 
@@ -141,16 +144,12 @@ summary(lm(pct_pop_change ~ pct_married_hh, data = model_data))
 
 With a p-value extremely close to zero, we may reasonably conclude that the percentage of married-couple households is a significant predictor for percent change in population. According to our model, an increase of 0.01 in the percentage of married-couple households will result, on average, in a 0.03 percent increase in the percent change in population (these percent increases are arithmetic, not geometric, e.g. .92 + 0.01 not .92 * 1.01). The correlation of determination (0.3104, 0.3033 adjusted) suggests that 31.04% of the variation of the percent change in population can be explained by this predictor - quite impressive for a single variable! From our analysis, this is the best single predictor for percent change in population in our dataset. We will clarify that we cannot conclude an increase in married-couple households _causes_ an increase in population growth (as this is not an experiment).
 
-# Main Takeaways from the Shiny App
-
-[Link to new Shiny App](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
-
 A few other variables were shown to be significant: the Median Age, both Male and Female, Percentage of the Population that is Foreign-Born, Number of Vehicles per Household, and the Percentage of the Population with a Bachelor’s Degree. These, however, did not account for as much variability as the Percentage of Married-Couple Households (the highest other than the latter being Number of Vehicles, with an r-squared of about 0.08). The scatterplot and model output is included within the shiny app.
 
 One thing to note is that, although the Shiny app gives the option to choose which regions of the United States to include in the scatterplot, it does not calculate a model for any combination other than the entire set of cities. Having to fit a model for any and all combinations of these four regions would result in 20 models per each of the 14 variables, or 280 linear models, far beyond the scope of this project. This is worth mentioning, however, as it is more than possible that the aforementioned predictors - or others - will account for more variability if the data were to be broken down by region. Further limitations of our project are included below.
 
 
-# Limitations
+# Limitations and Conclusion
 
 Probably the biggest limitation of our work is the small number of years for which we were able to gather data. Data from the American Community Survey is available via `tidycensus` from 2009 to 2018, but many areas were named differently by the ACS from 2009 to 2012. This presented a big enough obstacle to joining the data from these years that we decided to only include years 2013 to 2018. 
 
@@ -160,7 +159,6 @@ Our findings are also not necessarily generalizable. We only looked at the one h
 
 Finally, our model does an imperfect job of answering our main question: what factors contribute to cities’ wellbeing? This component of our Shiny app uses population growth from 2013 to 2018 as a proxy for wellbeing, when this is obviously not the ultimate indicator of how successful a city is or how high a quality of life its residents have. And even if population growth were a perfect measure, the cities that grew the most from 2013 to 2018 are not necessarily the ones that are growing the fastest right now or even the ones that have grown the most over the past twenty or fifty years. Our question, of course, is incredibly complex, and the answer probably involves an interaction between a multitude of variables. Still, the interactivity of our Shiny app presents the user with a number of thought-provoking patterns and relationships, which, hopefully, will lead to more good questions.
 
-# What's Next?
 provided interesting background and realtionships that might be interesting for future projects. 
 
 
