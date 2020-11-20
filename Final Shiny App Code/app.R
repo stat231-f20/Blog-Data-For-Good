@@ -218,7 +218,7 @@ ui <- fluidPage(
                                     , label = "Choose a year of interest:"
                                     , choices = map_year_choices),
                         
-                          leafletOutput("map", height = 630, width = 1375)),
+                          leafletOutput("map", height = 525, width = 1375)),
                
                #model
                tabPanel(title = "Model",
