@@ -6,8 +6,9 @@ library(leaflet)
 library(shiny)
 library(shinyWidgets)
 
-path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
+#path_in <- "/Users/glecates/git/Blog-Data-For-Good/"
 #path_in <- "/Users/CookieCream45/Desktop/STAT-231/Blog-Data-For-Good/"
+path_in <- ""
 
 ## model data
 cities <- read_csv(paste0(path_in, "dataset.csv"))%>%
