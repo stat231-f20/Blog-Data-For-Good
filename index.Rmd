@@ -80,7 +80,8 @@ Lastly, because one of our end goals of this project was to create leaflet map, 
 
 With our dataset compiled, we then created a shiny web application containing a Leaflet map and linear regression model. 
 
-[Click here to explore our Shiny Application in a new tab!](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
+Explore our Shiny App below, or click [here](https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958)
+to open it in a new tab!
 
 <iframe height="600" width="100%" frameborder="no" title="Put Your Title Here" src="https://sjenkins23.shinyapps.io/Metro_Areas/?_ga=2.21772920.2139815388.1605468268-618769786.1599849958"> </iframe>
 
